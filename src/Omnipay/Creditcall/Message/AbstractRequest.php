@@ -2,23 +2,35 @@
 
 namespace Omnipay\Creditcall\Message;
 
+use SimpleXMLElement;
+
 /**
  * Sage Pay Abstract Request
  */
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
-    protected $liveEndpoint = 'https://live.sagepay.com/gateway/service';
-    protected $testEndpoint = 'https://test.sagepay.com/gateway/service';
-    protected $simulatorEndpoint = 'https://test.sagepay.com/Simulator';
+    protected $liveEndpoint = 'https://live.cardeasexml.com/generic.cex';
+    protected $testEndpoint = 'https://test.cardeasexml.com/generic.cex';
+    protected $action;
 
-    public function getVendor()
+    public function getTerminalId()
     {
-        return $this->getParameter('vendor');
+        return $this->getParameter('terminalId');
     }
 
-    public function setVendor($value)
+    public function setTerminalId($value)
     {
-        return $this->setParameter('vendor', $value);
+        return $this->setParameter('terminalId', $value);
+    }
+
+    public function getTransactionKey()
+    {
+        return $this->getParameter('transactionKey');
+    }
+
+    public function setTransactionKey($value)
+    {
+        return $this->setParameter('transactionKey', $value);
     }
 
     public function getFirstName()
@@ -201,16 +213,6 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     {
         return $this->setParameter('email', $value);
     }
-    
-    public function getSimulatorMode()
-    {
-        return $this->getParameter('simulatorMode');
-    }
-
-    public function setSimulatorMode($value)
-    {
-        return $this->setParameter('simulatorMode', $value);
-    }
 
     public function getService()
     {
@@ -219,43 +221,40 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
     protected function getBaseData()
     {
-        $data = array();
-        $data['VPSProtocol'] = '2.23';
-        $data['TxType'] = $this->action;
-        $data['Vendor'] = $this->getVendor();
+        $data = new SimpleXMLElement('<?xml version="1.0" standalone="yes"?><Request/>');
+        $data->addAttribute('type', 'CardEaseXML');
+        $data->addAttribute('version', '1.1.0');
+
+        $transactionDetails = $data->addChild('TransactionDetails');
+        $transactionDetails->addChild('MessageType', $this->action);
+
+        $terminalDetails = $data->addChild('TerminalDetails');
+        $terminalDetails->addChild('TerminalID', $this->getTerminalId());
+        $terminalDetails->addChild('TransactionKey', $this->getTransactionKey());
+
+        $software = $terminalDetails->addChild('Software', 'Omnipay/Creditcall');
+        $software->addAttribute('version', '0.1');
 
         return $data;
     }
 
     public function sendData($data)
     {
-        $httpResponse = $this->httpClient->post($this->getEndpoint(), null, $data)->send();
+        $headers = array(
+            'Content-Type' => 'text/xml',
+        );
+        $httpResponse = $this->httpClient->post($this->getEndpoint(), $headers, $data->asXML())->send();
 
-        return $this->createResponse($httpResponse->getBody());
+        return $this->createResponse($httpResponse->xml());
     }
 
     public function getEndpoint()
     {
-        $service = strtolower($this->getService());
-
-        if ($this->getSimulatorMode()) {
-            // hooray for consistency
-            if ($service == 'vspdirect-register') {
-                return $this->simulatorEndpoint.'/VSPDirectGateway.asp';
-            } elseif ($service == 'vspserver-register') {
-                return $this->simulatorEndpoint.'/VSPServerGateway.asp?Service=VendorRegisterTx';
-            } elseif ($service == 'direct3dcallback') {
-                return $this->simulatorEndpoint.'/VSPDirectCallback.asp';
-            }
-
-            return $this->simulatorEndpoint.'/VSPServerGateway.asp?Service=Vendor'.ucfirst($service).'Tx';
-        }
-
         if ($this->getTestMode()) {
-            return $this->testEndpoint."/$service.vsp";
+            return $this->testEndpoint;
         }
 
-        return $this->liveEndpoint."/$service.vsp";
+        return $this->liveEndpoint;
     }
 
     protected function createResponse($data)

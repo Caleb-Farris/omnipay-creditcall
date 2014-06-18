@@ -9,7 +9,7 @@ use Omnipay\Creditcall\Message\ServerPurchaseRequest;
 /**
  * Sage Pay Server Gateway
  */
-class ServerGateway extends DirectGateway
+class MpiGateway extends AbstractGateway
 {
     public function getName()
     {
@@ -18,17 +18,17 @@ class ServerGateway extends DirectGateway
 
     public function authorize(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Creditcall\Message\ServerAuthorizeRequest', $parameters);
+        return $this->createRequest('\Omnipay\Creditcall\Message\MpiAuthorizeRequest', $parameters);
     }
 
     public function completeAuthorize(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Creditcall\Message\ServerCompleteAuthorizeRequest', $parameters);
+        return $this->createRequest('\Omnipay\Creditcall\Message\MpiCompleteAuthorizeRequest', $parameters);
     }
 
     public function purchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Creditcall\Message\ServerPurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\Creditcall\Message\MpiPurchaseRequest', $parameters);
     }
 
     public function completePurchase(array $parameters = array())

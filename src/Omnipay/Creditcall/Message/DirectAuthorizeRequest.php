@@ -7,25 +7,22 @@ namespace Omnipay\Creditcall\Message;
  */
 class DirectAuthorizeRequest extends AbstractRequest
 {
-    protected $action = 'DEFERRED';
-    protected $cardBrandMap = array(
-        'mastercard' => 'mc',
-        'diners_club' => 'dc'
-    );
+    protected $action = 'Auth';
 
     protected function getBaseAuthorizeData()
     {
-        $this->validate('amount', 'transactionId');
-        $data = $this->getBaseData();
-        $data['Description'] = $this->getDescription();
-        $data['Amount'] = $this->getAmount();
-        $data['Currency'] = $this->getCurrency();
-        $data['VendorTxCode'] = $this->getTransactionId();
-        $data['ClientIPAddress'] = $this->getClientIp();
-        $data['ApplyAVSCV2'] = 0; // use account setting
-        $data['Apply3DSecure'] = 0; // use account setting
+        $this->validate('amount');
 
-        if (!$this->getCardReference()) {
+        $data = $this->getBaseData();
+
+        $transactionDetails = $data->TransactionDetails;
+
+        $amount = $transactionDetails->addChild('Amount', $this->getAmount());
+        $amount->addAttribute('unit', 'major');
+        $transactionDetails->addChild('CurrencyCode', $this->getCurrency());
+
+        if( ! $this->getCardReference() )
+        {
             $card = $this->getCard();
             // billing details
             $data['BillingFirstnames'] = $card->getFirstName();
@@ -49,7 +46,9 @@ class DirectAuthorizeRequest extends AbstractRequest
             $data['DeliveryCountry'] = $card->getShippingCountry();
             $data['DeliveryPhone'] = $card->getShippingPhone();
             $data['CustomerEMail'] = $card->getEmail();
-        } else {
+        }
+        else
+        {
             //Card hasnt been sent so Values need to come from parameteres
             $data['BillingFirstnames'] = $this->getFirstName();
             $data['BillingSurname'] = $this->getLastName();
@@ -74,6 +73,7 @@ class DirectAuthorizeRequest extends AbstractRequest
             $data['CustomerEMail'] = $this->getEmail();
             
         }
+
         return $data;
     }
 

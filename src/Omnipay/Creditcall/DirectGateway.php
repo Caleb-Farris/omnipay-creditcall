@@ -9,7 +9,7 @@ use Omnipay\Creditcall\Message\DirectPurchaseRequest;
 use Omnipay\Creditcall\Message\RefundRequest;
 
 /**
- * Sage Pay Direct Gateway
+ * Creditcall Direct Gateway
  */
 class DirectGateway extends AbstractGateway
 {
@@ -21,30 +21,30 @@ class DirectGateway extends AbstractGateway
     public function getDefaultParameters()
     {
         return array(
-            'vendor' => '',
+            'terminalId' => '',
+            'transactionKey' => '',
             'testMode' => false,
-            'simulatorMode' => false,
         );
     }
 
-    public function getVendor()
+    public function getTerminalId()
     {
-        return $this->getParameter('vendor');
+        return $this->getParameter('terminalId');
     }
 
-    public function setVendor($value)
+    public function setTerminalId($value)
     {
-        return $this->setParameter('vendor', $value);
+        return $this->setParameter('terminalId', $value);
     }
 
-    public function getSimulatorMode()
+    public function getTransactionKey()
     {
-        return $this->getParameter('simulatorMode');
+        return $this->getParameter('transactionKey');
     }
 
-    public function setSimulatorMode($value)
+    public function setTransactionKey($value)
     {
-        return $this->setParameter('simulatorMode', $value);
+        return $this->setParameter('transactionKey', $value);
     }
 
     public function authorize(array $parameters = array())
