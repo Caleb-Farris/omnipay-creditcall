@@ -1,0 +1,35 @@
+{
+    "name": "doubleking/omnipay-creditcall",
+    "type": "library",
+    "description": "Creditcall driver for the Omnipay payment processing library",
+    "keywords": [
+        "creditcall",
+        "credit call",
+        "gateway",
+        "merchant",
+        "omnipay",
+        "cardeasexml"
+    ],
+    "homepage": "https://github.com/doubleking/omnipay-creditcall",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jan Jablonski",
+            "email": "jablonski.kce@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Omnipay\\Creditcall\\" : "src/" }
+    },
+    "require": {
+        "omnipay/common": "~2.0"
+    },
+    "require-dev": {
+        "omnipay/tests": "~2.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    }
+}
