@@ -1,10 +1,10 @@
 <?php
 
-namespace Omnipay\SagePay;
+namespace Omnipay\Creditcall;
 
-use Omnipay\SagePay\Message\ServerAuthorizeRequest;
-use Omnipay\SagePay\Message\ServerCompleteAuthorizeRequest;
-use Omnipay\SagePay\Message\ServerPurchaseRequest;
+use Omnipay\Creditcall\Message\ServerAuthorizeRequest;
+use Omnipay\Creditcall\Message\ServerCompleteAuthorizeRequest;
+use Omnipay\Creditcall\Message\ServerPurchaseRequest;
 
 /**
  * Sage Pay Server Gateway
@@ -18,17 +18,17 @@ class ServerGateway extends DirectGateway
 
     public function authorize(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\SagePay\Message\ServerAuthorizeRequest', $parameters);
+        return $this->createRequest('\Omnipay\Creditcall\Message\ServerAuthorizeRequest', $parameters);
     }
 
     public function completeAuthorize(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\SagePay\Message\ServerCompleteAuthorizeRequest', $parameters);
+        return $this->createRequest('\Omnipay\Creditcall\Message\ServerCompleteAuthorizeRequest', $parameters);
     }
 
     public function purchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\SagePay\Message\ServerPurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\Creditcall\Message\ServerPurchaseRequest', $parameters);
     }
 
     public function completePurchase(array $parameters = array())

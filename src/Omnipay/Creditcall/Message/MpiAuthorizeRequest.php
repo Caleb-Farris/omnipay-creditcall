@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\SagePay\Message;
+namespace Omnipay\Creditcall\Message;
 
 /**
  * Sage Pay Server Authorize Request

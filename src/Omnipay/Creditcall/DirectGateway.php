@@ -1,12 +1,12 @@
 <?php
 
-namespace Omnipay\SagePay;
+namespace Omnipay\Creditcall;
 
 use Omnipay\Common\AbstractGateway;
-use Omnipay\SagePay\Message\CaptureRequest;
-use Omnipay\SagePay\Message\DirectAuthorizeRequest;
-use Omnipay\SagePay\Message\DirectPurchaseRequest;
-use Omnipay\SagePay\Message\RefundRequest;
+use Omnipay\Creditcall\Message\CaptureRequest;
+use Omnipay\Creditcall\Message\DirectAuthorizeRequest;
+use Omnipay\Creditcall\Message\DirectPurchaseRequest;
+use Omnipay\Creditcall\Message\RefundRequest;
 
 /**
  * Sage Pay Direct Gateway
@@ -49,22 +49,22 @@ class DirectGateway extends AbstractGateway
 
     public function authorize(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\SagePay\Message\DirectAuthorizeRequest', $parameters);
+        return $this->createRequest('\Omnipay\Creditcall\Message\DirectAuthorizeRequest', $parameters);
     }
 
     public function completeAuthorize(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\SagePay\Message\DirectCompleteAuthorizeRequest', $parameters);
+        return $this->createRequest('\Omnipay\Creditcall\Message\DirectCompleteAuthorizeRequest', $parameters);
     }
 
     public function capture(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\SagePay\Message\CaptureRequest', $parameters);
+        return $this->createRequest('\Omnipay\Creditcall\Message\CaptureRequest', $parameters);
     }
 
     public function purchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\SagePay\Message\DirectPurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\Creditcall\Message\DirectPurchaseRequest', $parameters);
     }
 
     public function completePurchase(array $parameters = array())
@@ -74,22 +74,22 @@ class DirectGateway extends AbstractGateway
 
     public function refund(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\SagePay\Message\RefundRequest', $parameters);
+        return $this->createRequest('\Omnipay\Creditcall\Message\RefundRequest', $parameters);
     }
     
     public function createCard(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\SagePay\Message\DirectCreateTokenRequest', $parameters);
+        return $this->createRequest('\Omnipay\Creditcall\Message\DirectCreateTokenRequest', $parameters);
     }
     
     public function repeatPayment(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\SagePay\Message\DirectRepeatPaymentRequest', $parameters);
+        return $this->createRequest('\Omnipay\Creditcall\Message\DirectRepeatPaymentRequest', $parameters);
     }
 
     
     public function deleteCard(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\SagePay\Message\DirectRemoveTokenRequest', $parameters);
+        return $this->createRequest('\Omnipay\Creditcall\Message\DirectRemoveTokenRequest', $parameters);
     }
 }

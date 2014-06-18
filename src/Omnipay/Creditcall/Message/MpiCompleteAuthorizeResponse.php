@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\SagePay\Message;
+namespace Omnipay\Creditcall\Message;
 
 use Omnipay\Common\Message\RequestInterface;
 
@@ -75,7 +75,7 @@ class ServerCompleteAuthorizeResponse extends Response
     }
 
     /**
-     * Respond to SagePay confirming or rejecting the payment.
+     * Respond to Creditcall confirming or rejecting the payment.
      *
      * Sage Pay Server does things backwards compared to every other gateway (including Sage Pay
      * Direct). The return URL is called by their server, and they expect you to confirm receipt

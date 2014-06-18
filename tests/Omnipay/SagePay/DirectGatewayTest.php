@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\SagePay;
+namespace Omnipay\Creditcall;
 
 use Omnipay\Tests\GatewayTestCase;
 
