@@ -19,10 +19,11 @@ class DirectAuthorizeRequest extends AbstractRequest
 
         $transactionDetails = $data->TransactionDetails[0];
 
+        $transactionDetails->addChild('Reference', $this->getTransactionId());
+
         $amount = $transactionDetails->addChild('Amount', $this->getAmount());
         $amount->addAttribute('unit', 'major');
         $transactionDetails->addChild('CurrencyCode', $this->getCurrency());
-        $transactionDetails->addChild('Reference', $this->getTransactionId());
 
         $this->setBillingCredentials($transactionDetails);
         $this->setShippingCredentials($transactionDetails);

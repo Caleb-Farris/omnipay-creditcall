@@ -55,11 +55,6 @@ class DirectGateway extends AbstractGateway
         return $this->createRequest('\Omnipay\Creditcall\Message\DirectAuthorizeRequest', $parameters);
     }
 
-    public function completeAuthorize(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\Creditcall\Message\DirectCompleteAuthorizeRequest', $parameters);
-    }
-
     public function capture(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Creditcall\Message\DirectCaptureRequest', $parameters);
@@ -70,31 +65,16 @@ class DirectGateway extends AbstractGateway
         return $this->createRequest('\Omnipay\Creditcall\Message\DirectPurchaseRequest', $parameters);
     }
 
-    public function completePurchase(array $parameters = array())
+    public function void(array $parameters = array())
     {
-        return $this->completeAuthorize($parameters);
+        return $this->createRequest('\Omnipay\Creditcall\Message\DirectVoidRequest', $parameters);
     }
 
     public function refund(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Creditcall\Message\RefundRequest', $parameters);
+        return $this->createRequest('\Omnipay\Creditcall\Message\DirectRefundRequest', $parameters);
     }
     
-    public function createCard(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\Creditcall\Message\DirectCreateTokenRequest', $parameters);
-    }
-    
-    public function repeatPayment(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\Creditcall\Message\DirectRepeatPaymentRequest', $parameters);
-    }
-    
-    public function deleteCard(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\Creditcall\Message\DirectRemoveTokenRequest', $parameters);
-    }
-
     public function getVerifyCvv()
     {
         return $this->getParameter('verifyCvv');
