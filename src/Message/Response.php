@@ -48,9 +48,14 @@ class Response extends AbstractResponse implements RedirectResponseInterface
         return $errors;
     }
 
-    public function getToken()
+    public function getCardReference()
     {
-        return isset($this->data['Token']) ? $this->data['Token'] : null;
+        return isset( $this->data->CardDetails->CardReference ) ? $this->data->CardDetails->CardReference : null;
+    }
+
+    public function getCardHash()
+    {
+        return isset( $this->data->CardDetails->CardHash ) ? $this->data->CardDetails->CardHash : null;
     }
 
     public function getRedirectUrl()

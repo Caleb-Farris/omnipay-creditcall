@@ -26,11 +26,17 @@ class DirectAuthorizeRequest extends AbstractRequest
         $this->setBillingCredentials($transactionDetails);
         $this->setShippingCredentials($transactionDetails);
 
+        $cardDetails = $data->addChild('CardDetails');
+        $this->setCardHolderCredentials($cardDetails);
+
+        $manual = $cardDetails->addChild('Manual');
+        $manual->addAttribute('type', 'cnp');
+
         //If this is a Token payment, add the Token data item, otherwise its a normal card purchase.
         if( $this->getCardReference() )
         {
-            throw new \Exception('Unsupported yet');
-            
+            $manual->addChild('CardReference', $this->getCardReference());
+            $manual->addChild('CardHash', $this->getCardHash());
         }
         else
         {
@@ -38,11 +44,6 @@ class DirectAuthorizeRequest extends AbstractRequest
             $card = $this->getCard();
 
             $card->validate();
-
-            $cardDetails = $data->addChild('CardDetails');
-
-            $manual = $cardDetails->addChild('Manual');
-            $manual->addAttribute('type', 'cnp');
 
             $manual->addChild('PAN', $card->getNumber());
             $expiryDate = $manual->addChild('ExpiryDate', $card->getExpiryDate('ym'));
@@ -78,9 +79,6 @@ class DirectAuthorizeRequest extends AbstractRequest
                     $additionalVerification->addChild('Zip', $card->getPostcode());
                 }
             }
-
-            $this->setCardHolderCredentials($cardDetails);
-
         }
 
         return $data;
@@ -182,6 +180,26 @@ class DirectAuthorizeRequest extends AbstractRequest
         $phoneNumber1 = $phoneNumberList->addChild('PhoneNumber', $card->getPhone());
         $phoneNumber1->addAttribute('id', 1);
         $phoneNumber1->addAttribute('type', 'unknown');
+    }
+
+    public function getCardReference()
+    {
+        return $this->getParameter('cardReference');
+    }
+
+    public function setCardReference($value)
+    {
+        return $this->setParameter('cardReference', $value);
+    }
+
+    public function getCardHash()
+    {
+        return $this->getParameter('cardHash');
+    }
+
+    public function setCardHash($value)
+    {
+        return $this->setParameter('cardHash', $value);
     }
     
     /**
