@@ -60,7 +60,7 @@ class DirectAuthorizeRequest extends AbstractRequest
 
             if( $this->getVerifyCvv() || $this->getVerifyAddress() || $this->getVerifyZip() )
             {
-                $additionalVerification = $manual->addChild('AdditionalVerification');
+                $additionalVerification = $cardDetails->addChild('AdditionalVerification');
 
                 if( $this->getVerifyCvv() )
                 {
@@ -167,10 +167,10 @@ class DirectAuthorizeRequest extends AbstractRequest
 
         $contact = $address->addChild('Contact');
 
-        $phoneNumberList = $address->addChild('EmailAddressList');
-        $phoneNumber1 = $phoneNumberList->addChild('EmailAddress', $card->getEmail());
-        $phoneNumber1->addAttribute('id', 1);
-        $phoneNumber1->addAttribute('type', 'unknown');
+        $emailAddressList = $address->addChild('EmailAddressList');
+        $emailAddress1 = $emailAddressList->addChild('EmailAddress', $card->getEmail());
+        $emailAddress1->addAttribute('id', 1);
+        $emailAddress1->addAttribute('type', 'other');
 
         $name = $contact->addChild('Name');
 

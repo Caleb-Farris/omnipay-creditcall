@@ -7,54 +7,45 @@ use Omnipay\Common\Message\RedirectResponseInterface;
 use Omnipay\Common\Message\RequestInterface;
 
 /**
- * Sage Pay Response
+ * Creditcall Response
  */
 class Response extends AbstractResponse implements RedirectResponseInterface
 {
     public function __construct(RequestInterface $request, $data)
     {
         $this->request = $request;
-        $this->data = $this->decode($data);
+        $this->data = $data;
     }
 
     public function isSuccessful()
     {
-        return isset($this->data['Status']) && 'OK' === $this->data['Status'];
+        return isset( $this->data->Result->LocalResult ) && $this->data->Result->LocalResult == 0;
     }
 
     public function isRedirect()
     {
-        return isset($this->data['Status']) && '3DAUTH' === $this->data['Status'];
+        return false;
     }
 
-    /**
-     * Gateway Reference
-     *
-     * Unfortunately Sage Pay requires the original VendorTxCode as well as 3 separate
-     * fields from the response object to capture or refund transactions at a later date.
-     *
-     * Active Merchant solves this dilemma by returning the gateway reference in the following
-     * custom format: VendorTxCode;VPSTxId;TxAuthNo;SecurityKey
-     *
-     * We have opted to return this reference as JSON, as the keys are much more explicit.
-     */
     public function getTransactionReference()
     {
-        if (isset($this->data['SecurityKey']) && isset($this->data['TxAuthNo']) && isset($this->data['VPSTxId'])) {
-            return json_encode(
-                array(
-                    'SecurityKey' => $this->data['SecurityKey'],
-                    'TxAuthNo' => $this->data['TxAuthNo'],
-                    'VPSTxId' => $this->data['VPSTxId'],
-                    'VendorTxCode' => $this->getRequest()->getTransactionId(),
-                )
-            );
-        }
+        return isset( $this->data->TransactionDetails->CardEaseReference ) ? $this->data->TransactionDetails->CardEaseReference : null;
     }
 
     public function getMessage()
     {
-        return isset($this->data['StatusDetail']) ? $this->data['StatusDetail'] : null;
+        $errors = array();
+        if( ! isset( $this->data->Result->Errors ) )
+        {
+            return $errors;
+        }
+
+        foreach((array)$this->data->Result->Errors as $error)
+        {
+            $errors[] = (string)$error;
+        }
+
+        return $errors;
     }
 
     public function getToken()
@@ -64,35 +55,23 @@ class Response extends AbstractResponse implements RedirectResponseInterface
 
     public function getRedirectUrl()
     {
-        if ($this->isRedirect()) {
-            return $this->data['ACSURL'];
+        if( $this->isRedirect() )
+        {
+            return null;
         }
     }
 
     public function getRedirectMethod()
     {
-        return 'POST';
+        return 'GET';
     }
 
     public function getRedirectData()
     {
-        if ($this->isRedirect()) {
-            return array(
-                'PaReq' => $this->data['PAReq'],
-                'TermUrl' => $this->getRequest()->getReturnUrl(),
-                'MD' => $this->data['MD'],
-            );
+        if( $this->isRedirect() )
+        {
+            return array();
         }
     }
 
-    /**
-     * Decode raw ini-style response body
-     *
-     * @param string The raw response body
-     * @return array
-     */
-    protected function decode($data)
-    {
-        return $data;
-    }
 }
