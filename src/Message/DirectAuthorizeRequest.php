@@ -1,10 +1,11 @@
 <?php
 
 namespace Omnipay\Creditcall\Message;
+
 use Omnipay\Common\CreditCard;
 
 /**
- * Sage Pay Direct Authorize Request
+ * Creditcall Direct Authorize Request
  */
 class DirectAuthorizeRequest extends AbstractRequest
 {

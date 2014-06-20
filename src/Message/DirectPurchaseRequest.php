@@ -3,9 +3,10 @@
 namespace Omnipay\Creditcall\Message;
 
 /**
- * Sage Pay Direct Purchase Request
+ * Creditcall Direct Purchase Request
  */
-class DirectPurchaseRequest extends DirectAuthorizeRequest
-{
-    protected $action = 'PAYMENT';
+class DirectPurchaseRequest extends DirectAuthorizeRequest {
+//    protected $action = 'Conf';
+
+
 }
