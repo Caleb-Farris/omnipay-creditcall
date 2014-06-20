@@ -62,7 +62,7 @@ class DirectGateway extends AbstractGateway
 
     public function capture(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Creditcall\Message\CaptureRequest', $parameters);
+        return $this->createRequest('\Omnipay\Creditcall\Message\DirectCaptureRequest', $parameters);
     }
 
     public function purchase(array $parameters = array())

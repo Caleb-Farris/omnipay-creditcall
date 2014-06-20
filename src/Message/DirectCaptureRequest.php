@@ -13,7 +13,8 @@ class DirectCaptureRequest extends AbstractRequest
     {
         $data = $this->getBaseData();
 
-        $data->addChild('CardEaseReference', $this->getTransactionId());
+        $transactionDetails = $data->TransactionDetails[0];
+        $transactionDetails->addChild('CardEaseReference', $this->getTransactionReference());
 
         return $data;
     }
