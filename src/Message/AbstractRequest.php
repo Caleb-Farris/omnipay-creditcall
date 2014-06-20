@@ -214,9 +214,34 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('email', $value);
     }
 
-    public function getService()
+    public function getVerifyCvv()
     {
-        return $this->action;
+        return $this->getParameter('verifyCvv');
+    }
+
+    public function setVerifyCvv($value)
+    {
+        return $this->setParameter('verifyCvv', $value);
+    }
+
+    public function getVerifyAddress()
+    {
+        return $this->getParameter('verifyAddress');
+    }
+
+    public function setVerifyAddress($value)
+    {
+        return $this->setParameter('verifyAddress', $value);
+    }
+
+    public function getVerifyZip()
+    {
+        return $this->getParameter('verifyZip');
+    }
+
+    public function setVerifyZip($value)
+    {
+        return $this->setParameter('verifyZip', $value);
     }
 
     protected function getBaseData()

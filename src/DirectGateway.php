@@ -24,6 +24,9 @@ class DirectGateway extends AbstractGateway
             'terminalId' => '',
             'transactionKey' => '',
             'testMode' => false,
+            'verifyCvv' => true,
+            'verifyAddress' => false,
+            'verifyZip' => false,
         );
     }
 

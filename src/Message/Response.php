@@ -91,18 +91,8 @@ class Response extends AbstractResponse implements RedirectResponseInterface
      * @param string The raw response body
      * @return array
      */
-    protected function decode($response)
+    protected function decode($data)
     {
-        $lines = explode("\n", $response);
-        $data = array();
-
-        foreach ($lines as $line) {
-            $line = explode('=', $line, 2);
-            if (!empty($line[0])) {
-                $data[trim($line[0])] = isset($line[1]) ? trim($line[1]) : '';
-            }
-        }
-
         return $data;
     }
 }
