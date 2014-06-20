@@ -89,10 +89,40 @@ class DirectGateway extends AbstractGateway
     {
         return $this->createRequest('\Omnipay\Creditcall\Message\DirectRepeatPaymentRequest', $parameters);
     }
-
     
     public function deleteCard(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Creditcall\Message\DirectRemoveTokenRequest', $parameters);
     }
+
+    public function getVerifyCvv()
+    {
+        return $this->getParameter('verifyCvv');
+    }
+
+    public function setVerifyCvv($value)
+    {
+        return $this->setParameter('verifyCvv', $value);
+    }
+
+    public function getVerifyAddress()
+    {
+        return $this->getParameter('verifyAddress');
+    }
+
+    public function setVerifyAddress($value)
+    {
+        return $this->setParameter('verifyAddress', $value);
+    }
+
+    public function getVerifyZip()
+    {
+        return $this->getParameter('verifyZip');
+    }
+
+    public function setVerifyZip($value)
+    {
+        return $this->setParameter('verifyZip', $value);
+    }
+
 }
