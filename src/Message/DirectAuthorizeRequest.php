@@ -25,12 +25,7 @@ class DirectAuthorizeRequest extends AbstractRequest
         $amount->addAttribute('unit', 'major');
         $transactionDetails->addChild('CurrencyCode', $this->getCurrency());
 
-        $this->setBillingCredentials($transactionDetails);
-        $this->setShippingCredentials($transactionDetails);
-
-
         $cardDetails = $data->addChild('CardDetails');
-        $this->setCardHolderCredentials($cardDetails);
 
         $manual = $cardDetails->addChild('Manual');
         $manual->addAttribute('type', 'cnp');
@@ -82,6 +77,10 @@ class DirectAuthorizeRequest extends AbstractRequest
                     $additionalVerification->addChild('Zip', $card->getPostcode());
                 }
             }
+
+            $this->setBillingCredentials($transactionDetails);
+            $this->setShippingCredentials($transactionDetails);
+            $this->setCardHolderCredentials($cardDetails);
         }
 
         return $data;

@@ -19,7 +19,7 @@ class Response extends AbstractResponse implements RedirectResponseInterface
 
     public function isSuccessful()
     {
-        return isset( $this->data->Result->LocalResult ) && $this->data->Result->LocalResult == 0;
+        return isset( $this->data->Result->LocalResult ) && ( (string)$this->data->Result->LocalResult ) == 0 ;
     }
 
     public function isRedirect()
@@ -29,17 +29,17 @@ class Response extends AbstractResponse implements RedirectResponseInterface
 
     public function getTransactionReference()
     {
-        return isset( $this->data->TransactionDetails->CardEaseReference ) ? $this->data->TransactionDetails->CardEaseReference : null;
+        return isset( $this->data->TransactionDetails->CardEaseReference ) ? (string)$this->data->TransactionDetails->CardEaseReference : null;
     }
 
     public function getMessage()
     {
-        $errors = array();
         if( ! isset( $this->data->Result->Errors ) )
         {
-            return $errors;
+            return array();
         }
 
+        $errors = array();
         foreach((array)$this->data->Result->Errors as $error)
         {
             $errors[] = (string)$error;
@@ -50,12 +50,12 @@ class Response extends AbstractResponse implements RedirectResponseInterface
 
     public function getCardReference()
     {
-        return isset( $this->data->CardDetails->CardReference ) ? $this->data->CardDetails->CardReference : null;
+        return isset( $this->data->CardDetails->CardReference ) ? (string)$this->data->CardDetails->CardReference : null;
     }
 
     public function getCardHash()
     {
-        return isset( $this->data->CardDetails->CardHash ) ? $this->data->CardDetails->CardHash : null;
+        return isset( $this->data->CardDetails->CardHash ) ? (string)$this->data->CardDetails->CardHash : null;
     }
 
     public function getRedirectUrl()
