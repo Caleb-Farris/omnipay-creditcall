@@ -46,39 +46,4 @@ class DirectAuthorizeRequestTest extends TestCase
         $this->assertSame($card->getShippingPhone(), $data['DeliveryPhone']);
     }
 
-    public function testGetDataCustomerDetailsIgnoresStateOutsideUS()
-    {
-        $card = $this->request->getCard();
-        $card->setBillingCountry('UK');
-        $card->setShippingCountry('NZ');
-
-        $data = $this->request->getData();
-
-        $this->assertNull($data['BillingState']);
-        $this->assertNull($data['DeliveryState']);
-    }
-
-    public function testGetDataVisa()
-    {
-        $this->request->getCard()->setNumber('4929000000006');
-        $data = $this->request->getData();
-
-        $this->assertSame('visa', $data['CardType']);
-    }
-
-    public function testGetDataMastercard()
-    {
-        $this->request->getCard()->setNumber('5404000000000001');
-        $data = $this->request->getData();
-
-        $this->assertSame('mc', $data['CardType']);
-    }
-
-    public function testGetDataDinersClub()
-    {
-        $this->request->getCard()->setNumber('30569309025904');
-        $data = $this->request->getData();
-
-        $this->assertSame('dc', $data['CardType']);
-    }
 }
