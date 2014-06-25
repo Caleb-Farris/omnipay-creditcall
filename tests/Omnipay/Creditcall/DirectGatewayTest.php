@@ -6,14 +6,19 @@ use Omnipay\Tests\GatewayTestCase;
 
 class DirectGatewayTest extends GatewayTestCase
 {
+    /**
+     * @var DirectGateway
+     */
+    public $gateway;
+
     public function setUp()
     {
         parent::setUp();
 
         $this->gateway = new DirectGateway($this->getHttpClient(), $this->getHttpRequest());
 
-        $this->gateway->setTerminalId('99960713');
-        $this->gateway->setTransactionKey('5CbEvg8hXCe3ASs6');
+        $this->gateway->setTerminalId('923632313');
+        $this->gateway->setTransactionKey('23ASDas3d323ASs6');
 
         $this->purchaseOptions = array(
             'amount' => '10.00',
@@ -25,6 +30,19 @@ class DirectGatewayTest extends GatewayTestCase
             'amount' => '10.00',
             'transactionReference' => '6f3b812a-dafa-e311-983c-00505692354f',
         );
+    }
+
+    public function testGatewaySettersGetters(){
+        $this->assertSame('923632313', $this->gateway->getTerminalId());
+        $this->assertSame('23ASDas3d323ASs6', $this->gateway->getTransactionKey());
+
+        $this->gateway->setVerifyCvv(false);
+        $this->gateway->setVerifyAddress(true);
+        $this->gateway->setVerifyZip(true);
+
+        $this->assertFalse($this->gateway->getVerifyCvv());
+        $this->assertTrue($this->gateway->getVerifyAddress());
+        $this->assertTrue($this->gateway->getVerifyZip());
     }
 
     public function testAuthorizeSuccess()
@@ -57,8 +75,10 @@ class DirectGatewayTest extends GatewayTestCase
     {
         $this->setMockHttpResponse('DirectAuthorizeSuccess.txt');
 
-        $response = $this->gateway->authorize($this->purchaseOptions)->send();
+        $response = $this->gateway->purchase($this->purchaseOptions)->send();
 
+        $requestData = $response->getRequest()->getData();
+        $this->assertSame('true', (string)$requestData->TransactionDetails->MessageType->attributes()->autoconfirm);
         $this->assertTrue($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
         $this->assertSame('6f3b812a-dafa-e311-983c-00505692354f', $response->getTransactionReference());
@@ -72,8 +92,10 @@ class DirectGatewayTest extends GatewayTestCase
     {
         $this->setMockHttpResponse('DirectAuthorizeFailure.txt');
 
-        $response = $this->gateway->authorize($this->purchaseOptions)->send();
+        $response = $this->gateway->purchase($this->purchaseOptions)->send();
 
+        $requestData = $response->getRequest()->getData();
+        $this->assertSame('true', (string)$requestData->TransactionDetails->MessageType->attributes()->autoconfirm);
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
         $this->assertSame(array(), $response->getMessage());

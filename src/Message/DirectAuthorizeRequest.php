@@ -174,7 +174,6 @@ class DirectAuthorizeRequest extends AbstractRequest
         $emailAddress1->addAttribute('type', 'other');
 
         $name = $contact->addChild('Name');
-
         $name->addChild('FirstName', $card->getFirstName());
         $name->addChild('LastName', $card->getLastName());
 

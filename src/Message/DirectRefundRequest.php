@@ -5,7 +5,7 @@ namespace Omnipay\Creditcall\Message;
 /**
  * Creditcall Direct Refund Request
  */
-class DirectRefundRequest extends DirectAuthorizeRequest {
+class DirectRefundRequest extends AbstractRequest {
 
     protected $action = 'Refund';
 
@@ -22,16 +22,6 @@ class DirectRefundRequest extends DirectAuthorizeRequest {
         }
 
         return $data;
-    }
-
-    public function getVoidReason()
-    {
-        return $this->getParameter('voidReason');
-    }
-
-    public function setVoidReason($value)
-    {
-        return $this->setParameter('voidReason', $value);
     }
 
 }

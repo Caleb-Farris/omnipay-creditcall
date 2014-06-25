@@ -4,17 +4,18 @@ namespace Omnipay\Creditcall\Message;
 
 use Omnipay\Tests\TestCase;
 
-class DirectRefundRequestTest extends TestCase
+class DirectVoidRequestTest extends TestCase
 {
     public function setUp()
     {
         parent::setUp();
 
-        $this->request = new DirectRefundRequest($this->getHttpClient(), $this->getHttpRequest());
+        $this->request = new DirectVoidRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(
             array(
-                'amount' => '12.00',
                 'transactionReference' => '6f3b812a-dafa-e311-983c-00505692354f',
+                'transactionId' => '123',
+                'voidReason' => 'DummyReason',
             )
         );
     }
@@ -24,8 +25,8 @@ class DirectRefundRequestTest extends TestCase
         $data = $this->request->getData();
 
         $this->assertSame('6f3b812a-dafa-e311-983c-00505692354f', (string)$data->TransactionDetails->CardEaseReference);
-        $this->assertSame('12.00', (string)$data->TransactionDetails->Amount);
-        $this->assertSame('major', (string)$data->TransactionDetails->Amount->attributes()->unit);
+        $this->assertSame('123', (string)$data->TransactionDetails->Reference);
+        $this->assertSame('DummyReason', (string)$data->TransactionDetails->VoidReason);
     }
 
 }
