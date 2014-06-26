@@ -4,13 +4,11 @@
 
 [![Build Status](https://travis-ci.org/doubleking/omnipay-creditcall.png?branch=master)](https://travis-ci.org/doubleking/omnipay-creditcall)
 
-[Omnipay](https://github.com/omnipay/omnipay) is a framework agnostic, multi-gateway payment
-processing library for PHP 5.3+. This package implements Creditcall support for Omnipay.
+[Omnipay](https://github.com/omnipay/omnipay) is a framework agnostic, multi-gateway payment processing library for PHP 5.3+. This package implements Creditcall support for Omnipay.
 
 ## Installation
 
-Omnipay is installed via [Composer](http://getcomposer.org/). To install, simply add it
-to your `composer.json` file:
+Omnipay is installed via [Composer](http://getcomposer.org/). To install, simply add it to your `composer.json` file:
 
 ```json
 {
