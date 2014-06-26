@@ -5,11 +5,13 @@ namespace Omnipay\Creditcall\Message;
 /**
  * Creditcall Direct Void Request
  */
-class DirectVoidRequest extends AbstractRequest {
+class DirectVoidRequest extends AbstractRequest
+{
 
     protected $action = 'Void';
 
-    public function getData(){
+    public function getData()
+    {
         $data = $this->getBaseData();
 
         $transactionDetails = $data->TransactionDetails[0];
@@ -29,5 +31,4 @@ class DirectVoidRequest extends AbstractRequest {
     {
         return $this->setParameter('voidReason', $value);
     }
-
 }

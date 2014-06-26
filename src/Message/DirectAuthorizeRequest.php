@@ -31,13 +31,10 @@ class DirectAuthorizeRequest extends AbstractRequest
         $manual->addAttribute('type', 'cnp');
 
         //If this is a Token payment, add the Token data item, otherwise its a normal card purchase.
-        if( $this->getCardReference() )
-        {
+        if ($this->getCardReference()) {
             $manual->addChild('CardReference', $this->getCardReference());
             $manual->addChild('CardHash', $this->getCardHash());
-        }
-        else
-        {
+        } else {
             /** @var CreditCard $card */
             $card = $this->getCard();
 
@@ -47,33 +44,27 @@ class DirectAuthorizeRequest extends AbstractRequest
             $expiryDate = $manual->addChild('ExpiryDate', $card->getExpiryDate('ym'));
             $expiryDate->addAttribute('format', 'yyMM');
 
-            if( $card->getStartMonth() && $card->getStartYear() )
-            {
+            if ($card->getStartMonth() && $card->getStartYear()) {
                 $startDate = $manual->addChild('StartDate', $card->getStartDate('ym'));
                 $startDate->addAttribute('format', 'yyMM');
             }
 
-            if( $card->getIssueNumber() )
-            {
+            if ($card->getIssueNumber()) {
                 $manual->addChild('IssueNumber', $card->getIssueNumber());
             }
 
-            if( $this->getVerifyCvv() || $this->getVerifyAddress() || $this->getVerifyZip() )
-            {
+            if ($this->getVerifyCvv() || $this->getVerifyAddress() || $this->getVerifyZip()) {
                 $additionalVerification = $cardDetails->addChild('AdditionalVerification');
 
-                if( $this->getVerifyCvv() )
-                {
+                if ($this->getVerifyCvv()) {
                     $additionalVerification->addChild('CSC', $card->getCvv());
                 }
 
-                if( $this->getVerifyAddress() )
-                {
+                if ($this->getVerifyAddress()) {
                     $additionalVerification->addChild('Address', $card->getAddress1());
                 }
 
-                if( $this->getVerifyZip() )
-                {
+                if ($this->getVerifyZip()) {
                     $additionalVerification->addChild('Zip', $card->getPostcode());
                 }
             }
@@ -86,7 +77,8 @@ class DirectAuthorizeRequest extends AbstractRequest
         return $data;
     }
 
-    protected function setBillingCredentials(\SimpleXMLElement &$data){
+    protected function setBillingCredentials(\SimpleXMLElement &$data)
+    {
         /** @var CreditCard $card */
         $card = $this->getCard();
 
@@ -117,7 +109,8 @@ class DirectAuthorizeRequest extends AbstractRequest
         $phoneNumber1->addAttribute('type', 'unknown');
     }
 
-    protected function setShippingCredentials(\SimpleXMLElement &$data){
+    protected function setShippingCredentials(\SimpleXMLElement &$data)
+    {
         /** @var CreditCard $card */
         $card = $this->getCard();
 
@@ -148,7 +141,8 @@ class DirectAuthorizeRequest extends AbstractRequest
         $phoneNumber1->addAttribute('type', 'unknown');
     }
 
-    protected function setCardHolderCredentials(\SimpleXMLElement &$data){
+    protected function setCardHolderCredentials(\SimpleXMLElement &$data)
+    {
         /** @var CreditCard $card */
         $card = $this->getCard();
 
@@ -202,7 +196,7 @@ class DirectAuthorizeRequest extends AbstractRequest
     {
         return $this->setParameter('cardHash', $value);
     }
-    
+
     /**
      * CVV parameter getter
      *
@@ -225,5 +219,4 @@ class DirectAuthorizeRequest extends AbstractRequest
     {
         return $this->setParameter('cvv', $value);
     }
-
 }

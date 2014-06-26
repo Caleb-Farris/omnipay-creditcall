@@ -99,7 +99,7 @@ class ServerCompleteAuthorizeResponse extends Response
         $message = "Status=$status\r\nRedirectUrl=$nextUrl";
 
         if (null !== $detail) {
-            $message .= "\r\nStatusDetail=".$detail;
+            $message .= "\r\nStatusDetail=" . $detail;
         }
 
         $this->exitWith($message);

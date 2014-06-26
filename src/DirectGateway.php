@@ -3,10 +3,6 @@
 namespace Omnipay\Creditcall;
 
 use Omnipay\Common\AbstractGateway;
-use Omnipay\Creditcall\Message\CaptureRequest;
-use Omnipay\Creditcall\Message\DirectAuthorizeRequest;
-use Omnipay\Creditcall\Message\DirectPurchaseRequest;
-use Omnipay\Creditcall\Message\RefundRequest;
 
 /**
  * Creditcall Direct Gateway
@@ -74,7 +70,7 @@ class DirectGateway extends AbstractGateway
     {
         return $this->createRequest('\Omnipay\Creditcall\Message\DirectRefundRequest', $parameters);
     }
-    
+
     public function getVerifyCvv()
     {
         return $this->getParameter('verifyCvv');
@@ -104,5 +100,4 @@ class DirectGateway extends AbstractGateway
     {
         return $this->setParameter('verifyZip', $value);
     }
-
 }

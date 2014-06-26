@@ -5,9 +5,11 @@ namespace Omnipay\Creditcall\Message;
 /**
  * Creditcall Direct Purchase Request
  */
-class DirectPurchaseRequest extends DirectAuthorizeRequest {
+class DirectPurchaseRequest extends DirectAuthorizeRequest
+{
 
-    public function getData(){
+    public function getData()
+    {
         $data = parent::getData();
 
         $transactionDetails = $data->TransactionDetails[0];
@@ -16,5 +18,4 @@ class DirectPurchaseRequest extends DirectAuthorizeRequest {
 
         return $data;
     }
-
 }
