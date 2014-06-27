@@ -71,6 +71,11 @@ class DirectGateway extends AbstractGateway
         return $this->createRequest('\Omnipay\Creditcall\Message\DirectRefundRequest', $parameters);
     }
 
+    public function threeDSecureEnrollment(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Creditcall\Message\ThreeDSecureEnrollmentRequest', $parameters);
+    }
+
     public function getVerifyCvv()
     {
         return $this->getParameter('verifyCvv');

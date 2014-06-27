@@ -5,7 +5,7 @@ namespace Omnipay\Creditcall\Message;
 use SimpleXMLElement;
 
 /**
- * Sage Pay Abstract Request
+ * Creditcall Abstract Request
  */
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {

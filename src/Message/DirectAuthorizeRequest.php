@@ -23,7 +23,7 @@ class DirectAuthorizeRequest extends AbstractRequest
 
         $amount = $transactionDetails->addChild('Amount', $this->getAmount());
         $amount->addAttribute('unit', 'major');
-        $transactionDetails->addChild('CurrencyCode', $this->getCurrency());
+        $transactionDetails->addChild('CurrencyCode', $this->getCurrencyNumeric());
 
         $cardDetails = $data->addChild('CardDetails');
 
@@ -67,6 +67,10 @@ class DirectAuthorizeRequest extends AbstractRequest
                 if ($this->getVerifyZip()) {
                     $additionalVerification->addChild('Zip', $card->getPostcode());
                 }
+            }
+
+            if ($this->is3DSecureRequired()) {
+                $this->set3DSecureCredentials($cardDetails);
             }
 
             $this->setBillingCredentials($transactionDetails);
@@ -160,9 +164,9 @@ class DirectAuthorizeRequest extends AbstractRequest
         $address->addChild('ZipCode', $card->getPostcode());
         $address->addChild('Country', $card->getCountry());
 
-        $contact = $address->addChild('Contact');
+        $contact = $data->addChild('Contact');
 
-        $emailAddressList = $address->addChild('EmailAddressList');
+        $emailAddressList = $contact->addChild('EmailAddressList');
         $emailAddress1 = $emailAddressList->addChild('EmailAddress', $card->getEmail());
         $emailAddress1->addAttribute('id', 1);
         $emailAddress1->addAttribute('type', 'other');
@@ -171,10 +175,29 @@ class DirectAuthorizeRequest extends AbstractRequest
         $name->addChild('FirstName', $card->getFirstName());
         $name->addChild('LastName', $card->getLastName());
 
-        $phoneNumberList = $address->addChild('PhoneNumberList');
+        $phoneNumberList = $contact->addChild('PhoneNumberList');
         $phoneNumber1 = $phoneNumberList->addChild('PhoneNumber', $card->getPhone());
         $phoneNumber1->addAttribute('id', 1);
         $phoneNumber1->addAttribute('type', 'unknown');
+    }
+
+    public function is3DSecureRequired()
+    {
+        return true;
+    }
+
+    public function set3DSecureCredentials(\SimpleXMLElement &$data)
+    {
+        $threeDSecure = $data->addChild('ThreeDSecure');
+
+        $threeDSecure->addChild('CardHolderEnrolled', 'Yes');
+        $threeDSecure->addChild('ECI', '05');
+
+        $iav = $threeDSecure->addChild('IAV', 'AAABAGVlWIMgAAAAKGVYAAAAAAA=');
+        $iav->addAttribute('algorithm', '2');
+        $iav->addAttribute('format', 'base64');
+
+        $threeDSecure->addChild('TransactionStatus', 'Successful');
     }
 
     public function getCardReference()
@@ -195,28 +218,5 @@ class DirectAuthorizeRequest extends AbstractRequest
     public function setCardHash($value)
     {
         return $this->setParameter('cardHash', $value);
-    }
-
-    /**
-     * CVV parameter getter
-     *
-     * @return string
-     */
-    public function getCvv()
-    {
-        return $this->getParameter('cvv');
-    }
-
-    /**
-     * CVV parameter setter
-     * Setter added to allow payments with token and cvv.
-     * Without setter CVV parameter is stripped out from request parameters.
-     *
-     * @param $value string
-     * @return $this
-     */
-    public function setCvv($value)
-    {
-        return $this->setParameter('cvv', $value);
     }
 }
