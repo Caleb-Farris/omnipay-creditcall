@@ -46,6 +46,16 @@ class DirectGateway extends AbstractGateway
         return $this->setParameter('transactionKey', $value);
     }
 
+    public function getPassword()
+    {
+        return $this->getParameter('password');
+    }
+
+    public function setPassword($value)
+    {
+        return $this->setParameter('password', $value);
+    }
+
     public function authorize(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Creditcall\Message\DirectAuthorizeRequest', $parameters);
@@ -74,6 +84,11 @@ class DirectGateway extends AbstractGateway
     public function threeDSecureEnrollment(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Creditcall\Message\ThreeDSecureEnrollmentRequest', $parameters);
+    }
+
+    public function threeDSecureAuthentication(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Creditcall\Message\ThreeDSecureAuthenticationRequest', $parameters);
     }
 
     public function getVerifyCvv()

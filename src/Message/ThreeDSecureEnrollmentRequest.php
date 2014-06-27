@@ -10,6 +10,34 @@ use Omnipay\Common\CreditCard;
 class ThreeDSecureEnrollmentRequest extends AbstractThreeDSecureRequest
 {
 
+    protected function createResponse($data)
+    {
+        return $this->response = new ThreeDSecureEnrollmentResponse($this, $data);
+    }
+
+    public function getAcquirerBin()
+    {
+        if ($this->getTestMode()) {
+            return '123456';
+        } else {
+            throw new \Exception('AcquirerBin - no idea!');
+        }
+    }
+
+    public function getMerchantId()
+    {
+        if ($this->getTestMode()) {
+            return '123456789012345';
+        } else {
+            throw new \Exception('MerchantId - no idea!');
+        }
+    }
+
+    public function getXid()
+    {
+        return substr(md5(microtime(true) . $this->getPassword() . rand()), 0, 20);
+    }
+
     public function getData()
     {
         $data = $this->getBaseData();
@@ -19,7 +47,7 @@ class ThreeDSecureEnrollmentRequest extends AbstractThreeDSecureRequest
 
         $enrollment = $data->addChild('Enrollment');
 
-        $enrollment->addChild('AcquirerBIN', $acquirerBin);
+        $enrollment->addChild('AcquirerBIN', $this->getAcquirerBin());
         $enrollment->addChild('Amount', $this->getAmount());
         $enrollment->addChild('CurrencyCode', $this->getCurrencyNumeric());
 
@@ -27,10 +55,10 @@ class ThreeDSecureEnrollmentRequest extends AbstractThreeDSecureRequest
         $enrollment->addChild('ExpityDateYear', $card->getExpiryDate('Y'));
         $enrollment->addChild('PAN', $card->getNumber());
 
-        $enrollment->addChild('MerchantID', $merchantId);
+        $enrollment->addChild('MerchantID', $this->getMerchantId());
         $enrollment->addChild('Password', $this->getPassword());
         $enrollment->addChild('TransactionNarrative', $this->getDescription());
-        $enrollment->addChild('XID', $xid);
+        $enrollment->addChild('XID', $this->getXid());
 
         return $data;
     }

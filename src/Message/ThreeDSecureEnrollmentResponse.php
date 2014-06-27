@@ -2,47 +2,59 @@
 
 namespace Omnipay\Creditcall\Message;
 
-use Omnipay\Common\Message\AbstractResponse;
-use Omnipay\Common\Message\RedirectResponseInterface;
-use Omnipay\Common\Message\RequestInterface;
-
 /**
- * Creditcall 3D Secure Response
+ * Creditcall 3D Secure Enrollment Response
  */
-class ThreeDSecureResponse extends AbstractThreeDSecureResponse implements RedirectResponseInterface
+class ThreeDSecureEnrollmentResponse extends AbstractThreeDSecureResponse
 {
-    public function __construct(RequestInterface $request, $data)
-    {
-        $this->request = $request;
-        $this->data = $data;
-    }
 
     public function isSuccessful()
     {
         return isset($this->data->Response->Enrollment->CardHolderEnrolled);
     }
 
+    public function getCardHolderEnrolled()
+    {
+        return isset($this->data->Response->Enrollment->CardHolderEnrolled) ?
+            strtoupper($this->data->Response->Enrollment->CardHolderEnrolled) : null;
+    }
+
+    public function getPayerAuthenticationRequest()
+    {
+        return isset($this->data->Response->Enrollment->PayerAuthenticationRequest) ?
+            strtoupper($this->data->Response->Enrollment->PayerAuthenticationRequest) : null;
+    }
+
+
+
     public function isRedirect()
     {
+        if ($this->getCardHolderEnrolled() === 'Y') {
+            return true;
+        }
+
         return false;
     }
 
     public function getRedirectUrl()
     {
         if ($this->isRedirect()) {
-            return null;
+            return isset($this->data->Response->Enrollment->AccessControlServerURL) ?
+                $this->data->Response->Enrollment->AccessControlServerURL : null;
         }
-    }
 
-    public function getRedirectMethod()
-    {
-        return 'POST';
+        return null;
     }
 
     public function getRedirectData()
     {
         if ($this->isRedirect()) {
-            return array();
+            return array(
+                'PayerAuthenticationRequest' => $this->getPayerAuthenticationRequest(),
+                'Password' => $this->request->getPassword(),
+            );
         }
+
+        return null;
     }
 }

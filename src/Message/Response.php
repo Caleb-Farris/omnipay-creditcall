@@ -59,9 +59,7 @@ class Response extends AbstractResponse implements RedirectResponseInterface
 
     public function getRedirectUrl()
     {
-        if ($this->isRedirect()) {
-            return null;
-        }
+        return null;
     }
 
     public function getRedirectMethod()
@@ -71,8 +69,6 @@ class Response extends AbstractResponse implements RedirectResponseInterface
 
     public function getRedirectData()
     {
-        if ($this->isRedirect()) {
-            return array();
-        }
+        return array();
     }
 }

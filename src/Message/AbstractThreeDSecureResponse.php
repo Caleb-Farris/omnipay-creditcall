@@ -22,11 +22,6 @@ abstract class AbstractThreeDSecureResponse extends AbstractResponse implements 
         return false;
     }
 
-    public function isRedirect()
-    {
-        return false;
-    }
-
     public function getCode()
     {
         return isset($this->data->Response->Error->Code) ? (string)$this->data->Response->Error->Code : null;
@@ -42,11 +37,14 @@ abstract class AbstractThreeDSecureResponse extends AbstractResponse implements 
         return isset($this->data->Response->Error->Detail) ? (string)$this->data->Response->Error->Detail : null;
     }
 
+    public function isRedirect()
+    {
+        return false;
+    }
+
     public function getRedirectUrl()
     {
-        if ($this->isRedirect()) {
-            return null;
-        }
+        return null;
     }
 
     public function getRedirectMethod()
@@ -56,8 +54,6 @@ abstract class AbstractThreeDSecureResponse extends AbstractResponse implements 
 
     public function getRedirectData()
     {
-        if ($this->isRedirect()) {
-            return array();
-        }
+        return null;
     }
 }

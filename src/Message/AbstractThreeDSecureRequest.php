@@ -48,9 +48,4 @@ abstract class AbstractThreeDSecureRequest extends \Omnipay\Common\Message\Abstr
 
         return $this->liveEndpoint;
     }
-
-    protected function createResponse($data)
-    {
-        return $this->response = new ThreeDSecureResponse($this, $data);
-    }
 }
