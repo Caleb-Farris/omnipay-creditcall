@@ -43,7 +43,7 @@ class DirectAuthorizeTokenRequestTest extends TestCase
         $this->assertSame('a4f483ca-55fc-e311-8ca6-001422187e37', (string)$manual->CardReference);
         $this->assertSame('qo3tCvArxWUxsCONcIWGyHUhXKs=', (string)$manual->CardHash);
 
-        $this->assertSame('GBP', (string)$data->TransactionDetails->CurrencyCode);
+        $this->assertSame('826', (string)$data->TransactionDetails->CurrencyCode);
     }
 
 }

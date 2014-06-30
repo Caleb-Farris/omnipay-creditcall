@@ -101,13 +101,13 @@ class DirectAuthorizeRequest extends AbstractRequest
         $address->addChild('ZipCode', $card->getBillingPostcode());
         $address->addChild('Country', $card->getBillingCountry());
 
-        $contact = $address->addChild('Contact');
+        $contact = $invoice->addChild('Contact');
         $name = $contact->addChild('Name');
 
         $name->addChild('FirstName', $card->getBillingFirstName());
         $name->addChild('LastName', $card->getBillingLastName());
 
-        $phoneNumberList = $address->addChild('PhoneNumberList');
+        $phoneNumberList = $contact->addChild('PhoneNumberList');
         $phoneNumber1 = $phoneNumberList->addChild('PhoneNumber', $card->getBillingPhone());
         $phoneNumber1->addAttribute('id', 1);
         $phoneNumber1->addAttribute('type', 'unknown');
@@ -133,13 +133,13 @@ class DirectAuthorizeRequest extends AbstractRequest
         $address->addChild('ZipCode', $card->getShippingPostcode());
         $address->addChild('Country', $card->getShippingCountry());
 
-        $contact = $address->addChild('Contact');
+        $contact = $invoice->addChild('Contact');
         $name = $contact->addChild('Name');
 
         $name->addChild('FirstName', $card->getShippingFirstName());
         $name->addChild('LastName', $card->getShippingLastName());
 
-        $phoneNumberList = $address->addChild('PhoneNumberList');
+        $phoneNumberList = $contact->addChild('PhoneNumberList');
         $phoneNumber1 = $phoneNumberList->addChild('PhoneNumber', $card->getShippingPhone());
         $phoneNumber1->addAttribute('id', 1);
         $phoneNumber1->addAttribute('type', 'unknown');

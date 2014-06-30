@@ -34,5 +34,4 @@ class ThreeDSecureAuthenticationResponse extends AbstractThreeDSecureResponse
         return isset($this->data->Authentication->IAVAlgorithm) ?
             (string)$this->data->Authentication->IAVAlgorithm : null;
     }
-
 }
