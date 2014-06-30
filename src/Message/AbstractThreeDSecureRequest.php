@@ -35,8 +35,8 @@ abstract class AbstractThreeDSecureRequest extends \Omnipay\Common\Message\Abstr
         $headers = array(
             'Content-Type' => 'text/xml',
         );
-        $httpResponse = $this->httpClient->post($this->getEndpoint(), $headers, $data->asXML())->send();
 
+        $httpResponse = $this->httpClient->post($this->getEndpoint(), $headers, $data->asXML())->send();
         return $this->createResponse($httpResponse->xml());
     }
 

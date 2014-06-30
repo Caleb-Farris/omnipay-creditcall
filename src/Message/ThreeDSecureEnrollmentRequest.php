@@ -51,8 +51,8 @@ class ThreeDSecureEnrollmentRequest extends AbstractThreeDSecureRequest
         $enrollment->addChild('Amount', $this->getAmount());
         $enrollment->addChild('CurrencyCode', $this->getCurrencyNumeric());
 
-        $enrollment->addChild('ExpityDateMonth', $card->getExpiryDate('m'));
-        $enrollment->addChild('ExpityDateYear', $card->getExpiryDate('Y'));
+        $enrollment->addChild('ExpiryDateMonth', $card->getExpiryDate('m'));
+        $enrollment->addChild('ExpiryDateYear', $card->getExpiryDate('Y'));
         $enrollment->addChild('PAN', $card->getNumber());
 
         $enrollment->addChild('MerchantID', $this->getMerchantId());

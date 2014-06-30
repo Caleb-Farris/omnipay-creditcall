@@ -69,8 +69,8 @@ class DirectAuthorizeRequest extends AbstractRequest
                 }
             }
 
-            if ($this->is3DSecureRequired()) {
-                $this->set3DSecureCredentials($cardDetails);
+            if ($this->getThreeDSecureRequired()) {
+                $this->setThreeDSecureCredentials($cardDetails);
             }
 
             $this->setBillingCredentials($transactionDetails);
@@ -181,25 +181,6 @@ class DirectAuthorizeRequest extends AbstractRequest
         $phoneNumber1->addAttribute('type', 'unknown');
     }
 
-    public function is3DSecureRequired()
-    {
-        return true;
-    }
-
-    public function set3DSecureCredentials(\SimpleXMLElement &$data)
-    {
-        $threeDSecure = $data->addChild('ThreeDSecure');
-
-        $threeDSecure->addChild('CardHolderEnrolled', 'Yes');
-        $threeDSecure->addChild('ECI', '05');
-
-        $iav = $threeDSecure->addChild('IAV', 'AAABAGVlWIMgAAAAKGVYAAAAAAA=');
-        $iav->addAttribute('algorithm', '2');
-        $iav->addAttribute('format', 'base64');
-
-        $threeDSecure->addChild('TransactionStatus', 'Successful');
-    }
-
     public function getCardReference()
     {
         return $this->getParameter('cardReference');
@@ -218,5 +199,118 @@ class DirectAuthorizeRequest extends AbstractRequest
     public function setCardHash($value)
     {
         return $this->setParameter('cardHash', $value);
+    }
+
+    public function getThreeDSecureCardHolderEnrolled()
+    {
+        return $this->getParameter('threeDSecureCardHolderEnrolled');
+    }
+
+    public function getThreeDSecureCardHolderEnrolledTranslated()
+    {
+        $mpiParameter = $this->getParameter('threeDSecureCardHolderEnrolled');
+
+        $xmlParameter = null;
+        switch($mpiParameter)
+        {
+            case 'Y':
+                $xmlParameter = 'Yes';
+                break;
+            case 'N':
+                $xmlParameter = 'No';
+                break;
+            case 'U':
+                $xmlParameter = 'Unknown';
+                break;
+            default:
+                $xmlParameter = 'None';
+        }
+
+        return $xmlParameter;
+    }
+
+    public function setThreeDSecureCardHolderEnrolled($value)
+    {
+        return $this->setParameter('threeDSecureCardHolderEnrolled', $value);
+    }
+
+    public function getThreeDSecureTransactionStatus()
+    {
+        return $this->getParameter('threeDSecureTransactionStatus');
+    }
+
+    public function getThreeDSecureTransactionStatusTranslated()
+    {
+        $mpiParameter = $this->getParameter('threeDSecureTransactionStatus');
+
+        $xmlParameter = null;
+        switch($mpiParameter)
+        {
+            case 'Y':
+                $xmlParameter = 'Successful';
+                break;
+            case 'N':
+                $xmlParameter = 'Failed';
+                break;
+            case 'U':
+                $xmlParameter = 'Unknown';
+                break;
+            case 'A':
+                $xmlParameter = 'Attempted';
+                break;
+            default:
+                $xmlParameter = 'None';
+        }
+
+        return $xmlParameter;
+    }
+
+    public function setThreeDSecureTransactionStatus($value)
+    {
+        return $this->setParameter('threeDSecureTransactionStatus', $value);
+    }
+
+    public function getThreeDSecureEci()
+    {
+        return $this->getParameter('threeDSecureEci');
+    }
+
+    public function setThreeDSecureEci($value)
+    {
+        return $this->setParameter('threeDSecureEci', $value);
+    }
+
+    public function getThreeDSecureIav()
+    {
+        return $this->getParameter('threeDSecureIav');
+    }
+
+    public function setThreeDSecureIav($value)
+    {
+        return $this->setParameter('threeDSecureIav', $value);
+    }
+
+    public function getThreeDSecureIavAlgorithm()
+    {
+        return $this->getParameter('threeDSecureIavAlgorithm');
+    }
+
+    public function setThreeDSecureIavAlgorithm($value)
+    {
+        return $this->setParameter('threeDSecureIavAlgorithm', $value);
+    }
+
+    public function setThreeDSecureCredentials(\SimpleXMLElement &$data)
+    {
+        $threeDSecure = $data->addChild('ThreeDSecure');
+
+        $threeDSecure->addChild('CardHolderEnrolled', $this->getThreeDSecureCardHolderEnrolledTranslated());
+        $threeDSecure->addChild('ECI', $this->getThreeDSecureEci());
+
+        $iav = $threeDSecure->addChild('IAV', $this->getThreeDSecureIav());
+        $iav->addAttribute('algorithm', $this->getThreeDSecureIavAlgorithm());
+        $iav->addAttribute('format', 'base64');
+
+        $threeDSecure->addChild('TransactionStatus', $this->getThreeDSecureTransactionStatusTranslated());
     }
 }

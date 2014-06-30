@@ -245,6 +245,16 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('verifyZip', $value);
     }
 
+    public function getThreeDSecureRequired()
+    {
+        return $this->getParameter('threeDSecureRequired');
+    }
+
+    public function setThreeDSecureRequired($value)
+    {
+        return $this->setParameter('threeDSecureRequired', $value);
+    }
+
     protected function getBaseData()
     {
         $data = new SimpleXMLElement('<?xml version="1.0" standalone="yes"?><Request/>');

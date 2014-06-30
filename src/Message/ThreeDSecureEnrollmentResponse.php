@@ -10,22 +10,20 @@ class ThreeDSecureEnrollmentResponse extends AbstractThreeDSecureResponse
 
     public function isSuccessful()
     {
-        return isset($this->data->Response->Enrollment->CardHolderEnrolled);
+        return isset($this->data->Enrollment->CardHolderEnrolled);
     }
 
     public function getCardHolderEnrolled()
     {
-        return isset($this->data->Response->Enrollment->CardHolderEnrolled) ?
-            strtoupper($this->data->Response->Enrollment->CardHolderEnrolled) : null;
+        return isset($this->data->Enrollment->CardHolderEnrolled) ?
+            strtoupper($this->data->Enrollment->CardHolderEnrolled) : null;
     }
 
     public function getPayerAuthenticationRequest()
     {
-        return isset($this->data->Response->Enrollment->PayerAuthenticationRequest) ?
-            strtoupper($this->data->Response->Enrollment->PayerAuthenticationRequest) : null;
+        return isset($this->data->Enrollment->PayerAuthenticationRequest) ?
+            (string)$this->data->Enrollment->PayerAuthenticationRequest : null;
     }
-
-
 
     public function isRedirect()
     {
@@ -39,8 +37,8 @@ class ThreeDSecureEnrollmentResponse extends AbstractThreeDSecureResponse
     public function getRedirectUrl()
     {
         if ($this->isRedirect()) {
-            return isset($this->data->Response->Enrollment->AccessControlServerURL) ?
-                $this->data->Response->Enrollment->AccessControlServerURL : null;
+            return isset($this->data->Enrollment->AccessControlServerURL) ?
+                (string)$this->data->Enrollment->AccessControlServerURL : null;
         }
 
         return null;
@@ -50,8 +48,9 @@ class ThreeDSecureEnrollmentResponse extends AbstractThreeDSecureResponse
     {
         if ($this->isRedirect()) {
             return array(
-                'PayerAuthenticationRequest' => $this->getPayerAuthenticationRequest(),
-                'Password' => $this->request->getPassword(),
+                'MD' => $this->request->getTransactionId(),
+                'PaReq' => $this->getPayerAuthenticationRequest(),
+                'TermUrl' => $this->request->getReturnUrl(),
             );
         }
 
