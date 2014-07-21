@@ -7,6 +7,7 @@ use SimpleXMLElement;
 
 /**
  * Creditcall Abstract 3D Secure Request
+ * @method AbstractMpiResponse send()
  */
 abstract class AbstractMpiRequest extends AbstractRequest
 {

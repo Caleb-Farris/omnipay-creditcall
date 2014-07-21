@@ -48,7 +48,7 @@ class MpiEnrollmentResponse extends AbstractMpiResponse
     {
         if ($this->isRedirect()) {
             return array(
-                'MD' => $this->request->getTransactionId(),
+                'MD' => $this->request->getMd(),
                 'PaReq' => $this->getPayerAuthenticationRequest(),
                 'TermUrl' => $this->request->getReturnUrl(),
             );

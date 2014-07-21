@@ -32,10 +32,10 @@ class MpiAuthenticationRequest extends AbstractMpiRequest
         /** @var CreditCard $card */
         $card = $this->getCard();
 
-        $enrollment = $data->addChild('Authentication');
+        $authentication = $data->addChild('Authentication');
 
-        $enrollment->addChild('PayerAuthenticationResponse', $this->getPayerAuthenticationResponse());
-        $enrollment->addChild('Password', $this->getPassword());
+        $authentication->addChild('PayerAuthenticationResponse', $this->getPayerAuthenticationResponse());
+        $authentication->addChild('Password', $this->getPassword());
 
         return $data;
     }

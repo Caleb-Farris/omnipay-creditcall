@@ -19,30 +19,8 @@ class MpiGateway extends AbstractGateway
     public function getDefaultParameters()
     {
         return array(
-            'acquirerBin' => '',
-            'merchantId' => '',
             'testMode' => false,
         );
-    }
-
-    public function getAcquirerBin()
-    {
-        return $this->getParameter('acquirerBin');
-    }
-
-    public function setAcquirerBin($value)
-    {
-        return $this->setParameter('acquirerBin', $value);
-    }
-
-    public function getMerchantId()
-    {
-        return $this->getParameter('merchantId');
-    }
-
-    public function setMerchantId($value)
-    {
-        return $this->setParameter('merchantId', $value);
     }
 
     /**
@@ -61,5 +39,15 @@ class MpiGateway extends AbstractGateway
     public function completeAuthorize(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Creditcall\Message\MpiAuthenticationRequest', $parameters);
+    }
+
+    public function getPassword()
+    {
+        return $this->getParameter('password');
+    }
+
+    public function setPassword($value)
+    {
+        return $this->setParameter('password', $value);
     }
 }

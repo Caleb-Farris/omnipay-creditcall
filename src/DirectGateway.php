@@ -33,36 +33,6 @@ class DirectGateway extends AbstractGateway
         );
     }
 
-    public function getTerminalId()
-    {
-        return $this->getParameter('terminalId');
-    }
-
-    public function setTerminalId($value)
-    {
-        return $this->setParameter('terminalId', $value);
-    }
-
-    public function getTransactionKey()
-    {
-        return $this->getParameter('transactionKey');
-    }
-
-    public function setTransactionKey($value)
-    {
-        return $this->setParameter('transactionKey', $value);
-    }
-
-    public function getPassword()
-    {
-        return $this->getParameter('password');
-    }
-
-    public function setPassword($value)
-    {
-        return $this->setParameter('password', $value);
-    }
-
     /**
      * @param array $parameters
      * @return DirectAuthorizeRequest
@@ -106,6 +76,36 @@ class DirectGateway extends AbstractGateway
     public function refund(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Creditcall\Message\DirectRefundRequest', $parameters);
+    }
+
+
+    public function getTerminalId()
+    {
+        return $this->getParameter('terminalId');
+    }
+
+    public function setTerminalId($value)
+    {
+        return $this->setParameter('terminalId', $value);
+    }
+
+    public function getTransactionKey()
+    {
+        return $this->getParameter('transactionKey');
+    }
+
+    public function setTransactionKey($value)
+    {
+        return $this->setParameter('transactionKey', $value);
+    }
+    public function getPassword()
+    {
+        return $this->getParameter('password');
+    }
+
+    public function setPassword($value)
+    {
+        return $this->setParameter('password', $value);
     }
 
     public function getVerifyCvv()

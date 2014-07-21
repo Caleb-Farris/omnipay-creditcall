@@ -17,20 +17,32 @@ class MpiEnrollmentRequest extends AbstractMpiRequest
 
     public function getAcquirerBin()
     {
-        if ($this->getTestMode()) {
-            return '123456';
-        } else {
-            throw new \Exception('AcquirerBin - no idea!');
-        }
+        return $this->getParameter('acquirerBin');
+    }
+
+    public function setAcquirerBin($value)
+    {
+        return $this->setParameter('acquirerBin', $value);
     }
 
     public function getMerchantId()
     {
-        if ($this->getTestMode()) {
-            return '123456789012345';
-        } else {
-            throw new \Exception('MerchantId - no idea!');
-        }
+        return $this->getParameter('merchantId');
+    }
+
+    public function setMerchantId($value)
+    {
+        return $this->setParameter('merchantId', $value);
+    }
+
+    public function getMd()
+    {
+        return $this->getParameter('md');
+    }
+
+    public function setMd($value)
+    {
+        return $this->setParameter('md', $value);
     }
 
     public function getXid()
