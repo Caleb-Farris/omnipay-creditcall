@@ -7,7 +7,7 @@ use Omnipay\Common\CreditCard;
 /**
  * Creditcall Direct Authorize Request
  */
-class DirectAuthorizeRequest extends AbstractRequest
+class DirectAuthorizeRequest extends AbstractDirectRequest
 {
     protected $action = 'Auth';
 

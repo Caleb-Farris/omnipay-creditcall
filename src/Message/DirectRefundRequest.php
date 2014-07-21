@@ -5,7 +5,7 @@ namespace Omnipay\Creditcall\Message;
 /**
  * Creditcall Direct Refund Request
  */
-class DirectRefundRequest extends AbstractRequest
+class DirectRefundRequest extends AbstractDirectRequest
 {
 
     protected $action = 'Refund';

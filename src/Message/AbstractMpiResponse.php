@@ -9,7 +9,7 @@ use Omnipay\Common\Message\RequestInterface;
 /**
  * Creditcall 3D Secure Response
  */
-abstract class AbstractThreeDSecureResponse extends AbstractResponse implements RedirectResponseInterface
+abstract class AbstractMpiResponse extends AbstractResponse implements RedirectResponseInterface
 {
     public function __construct(RequestInterface $request, $data)
     {

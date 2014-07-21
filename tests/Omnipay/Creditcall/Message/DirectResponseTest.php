@@ -4,13 +4,13 @@ namespace Omnipay\Creditcall\Message;
 
 use Omnipay\Tests\TestCase;
 
-class ResponseTest extends TestCase
+class DirectResponseTest extends TestCase
 {
     public function testDirectAuthorizeSuccess()
     {
         // same as in DirectGatewayTest
         $httpResponse = $this->getMockHttpResponse('DirectAuthorizeSuccess.txt');
-        $response = new Response($this->getMockRequest(), $httpResponse->xml());
+        $response = new DirectResponse($this->getMockRequest(), $httpResponse->xml());
 
         $this->assertTrue($response->isSuccessful());
         $this->assertFalse($response->isRedirect());

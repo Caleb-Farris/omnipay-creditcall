@@ -5,7 +5,7 @@ namespace Omnipay\Creditcall\Message;
 /**
  * Creditcall 3D Secure Authentication Response
  */
-class ThreeDSecureAuthenticationResponse extends AbstractThreeDSecureResponse
+class MpiAuthenticationResponse extends AbstractMpiResponse
 {
 
     public function isSuccessful()

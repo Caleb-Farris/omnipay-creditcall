@@ -5,7 +5,7 @@ namespace Omnipay\Creditcall\Message;
 /**
  * Creditcall Direct Capture Request
  */
-class DirectCaptureRequest extends AbstractRequest
+class DirectCaptureRequest extends AbstractDirectRequest
 {
     protected $action = 'Conf';
 

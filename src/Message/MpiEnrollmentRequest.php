@@ -7,12 +7,12 @@ use Omnipay\Common\CreditCard;
 /**
  * Creditcall 3D Secure Enrollment Request
  */
-class ThreeDSecureEnrollmentRequest extends AbstractThreeDSecureRequest
+class MpiEnrollmentRequest extends AbstractMpiRequest
 {
 
     protected function createResponse($data)
     {
-        return $this->response = new ThreeDSecureEnrollmentResponse($this, $data);
+        return $this->response = new MpiEnrollmentResponse($this, $data);
     }
 
     public function getAcquirerBin()

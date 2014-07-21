@@ -27,7 +27,8 @@ And run composer to update your dependencies:
 
 The following gateways are provided by this package:
 
-* Creditcall
+* Creditcall CardEaseXML [Creditcall_Direct]
+* Creditcall CardEaseMPI [Creditcall_Mpi]
 
 For general usage instructions, please see the main [Omnipay](https://github.com/omnipay/omnipay)
 repository.

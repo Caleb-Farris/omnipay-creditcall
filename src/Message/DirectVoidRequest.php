@@ -5,7 +5,7 @@ namespace Omnipay\Creditcall\Message;
 /**
  * Creditcall Direct Void Request
  */
-class DirectVoidRequest extends AbstractRequest
+class DirectVoidRequest extends AbstractDirectRequest
 {
 
     protected $action = 'Void';

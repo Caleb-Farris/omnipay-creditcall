@@ -3,15 +3,21 @@
 namespace Omnipay\Creditcall;
 
 use Omnipay\Common\AbstractGateway;
+use Omnipay\Creditcall\Message\DirectAuthorizeRequest;
+use Omnipay\Creditcall\Message\DirectCaptureRequest;
+use Omnipay\Creditcall\Message\DirectPurchaseRequest;
+use Omnipay\Creditcall\Message\DirectRefundRequest;
+use Omnipay\Creditcall\Message\DirectResponse;
+use Omnipay\Creditcall\Message\DirectVoidRequest;
 
 /**
- * Creditcall Direct Gateway
+ * Creditcall CardEaseXML Gateway
  */
 class DirectGateway extends AbstractGateway
 {
     public function getName()
     {
-        return 'Sage Pay Direct';
+        return 'Creditcall CardEaseXML Gateway';
     }
 
     public function getDefaultParameters()
@@ -57,39 +63,49 @@ class DirectGateway extends AbstractGateway
         return $this->setParameter('password', $value);
     }
 
+    /**
+     * @param array $parameters
+     * @return DirectAuthorizeRequest
+     */
     public function authorize(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Creditcall\Message\DirectAuthorizeRequest', $parameters);
     }
 
+    /**
+     * @param array $parameters
+     * @return DirectCaptureRequest
+     */
     public function capture(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Creditcall\Message\DirectCaptureRequest', $parameters);
     }
 
+    /**
+     * @param array $parameters
+     * @return DirectPurchaseRequest
+     */
     public function purchase(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Creditcall\Message\DirectPurchaseRequest', $parameters);
     }
 
+    /**
+     * @param array $parameters
+     * @return DirectVoidRequest
+     */
     public function void(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Creditcall\Message\DirectVoidRequest', $parameters);
     }
 
+    /**
+     * @param array $parameters
+     * @return DirectRefundRequest
+     */
     public function refund(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\Creditcall\Message\DirectRefundRequest', $parameters);
-    }
-
-    public function threeDSecureEnrollment(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\Creditcall\Message\ThreeDSecureEnrollmentRequest', $parameters);
-    }
-
-    public function threeDSecureAuthentication(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\Creditcall\Message\ThreeDSecureAuthenticationRequest', $parameters);
     }
 
     public function getVerifyCvv()

@@ -2,12 +2,13 @@
 
 namespace Omnipay\Creditcall\Message;
 
+use Omnipay\Common\Message\AbstractRequest;
 use SimpleXMLElement;
 
 /**
  * Creditcall Abstract 3D Secure Request
  */
-abstract class AbstractThreeDSecureRequest extends \Omnipay\Common\Message\AbstractRequest
+abstract class AbstractMpiRequest extends AbstractRequest
 {
 
     protected $liveEndpoint = 'https://mpi.cardeasexml.com';
@@ -48,4 +49,6 @@ abstract class AbstractThreeDSecureRequest extends \Omnipay\Common\Message\Abstr
 
         return $this->liveEndpoint;
     }
+
+    abstract protected function createResponse($data);
 }

@@ -7,12 +7,12 @@ use Omnipay\Common\CreditCard;
 /**
  * Creditcall 3D Secure Authentication Request
  */
-class ThreeDSecureAuthenticationRequest extends AbstractThreeDSecureRequest
+class MpiAuthenticationRequest extends AbstractMpiRequest
 {
 
     protected function createResponse($data)
     {
-        return $this->response = new ThreeDSecureAuthenticationResponse($this, $data);
+        return $this->response = new MpiAuthenticationResponse($this, $data);
     }
 
     public function getPayerAuthenticationResponse()

@@ -11,6 +11,9 @@ class DirectGatewayTest extends GatewayTestCase
      */
     public $gateway;
 
+    public $purchaseOptions;
+    public $captureOptions;
+
     public function setUp()
     {
         parent::setUp();
@@ -32,7 +35,8 @@ class DirectGatewayTest extends GatewayTestCase
         );
     }
 
-    public function testGatewaySettersGetters(){
+    public function testGatewaySettersGetters()
+    {
         $this->assertSame('923632313', $this->gateway->getTerminalId());
         $this->assertSame('23ASDas3d323ASs6', $this->gateway->getTransactionKey());
 
