@@ -35,16 +35,6 @@ class MpiEnrollmentRequest extends AbstractMpiRequest
         return $this->setParameter('merchantId', $value);
     }
 
-    public function getMd()
-    {
-        return $this->getParameter('md');
-    }
-
-    public function setMd($value)
-    {
-        return $this->setParameter('md', $value);
-    }
-
     public function getXid()
     {
         return substr(md5(microtime(true) . $this->getPassword() . rand()), 0, 20);

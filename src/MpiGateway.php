@@ -5,6 +5,7 @@ namespace Omnipay\Creditcall;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Creditcall\Message\MpiAuthenticationRequest;
 use Omnipay\Creditcall\Message\MpiEnrollmentRequest;
+use Omnipay\Creditcall\Message\TemporaryStorageInterface;
 
 /**
  * Creditcall CardEaseMPI Gateway

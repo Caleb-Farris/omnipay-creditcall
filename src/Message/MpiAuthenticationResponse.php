@@ -34,4 +34,19 @@ class MpiAuthenticationResponse extends AbstractMpiResponse
         return isset($this->data->Authentication->IAVAlgorithm) ?
             (string)$this->data->Authentication->IAVAlgorithm : null;
     }
+
+    public function restoreData()
+    {
+        /** @var TemporaryStorageInterface $temporaryStorageDriver */
+        $temporaryStorageDriver = $this->getTemporaryStorageDriver();
+        if ($temporaryStorageDriver) {
+            $key = $this->request->getMd();
+            $data = $temporaryStorageDriver->get($key);
+            $temporaryStorageDriver->forget($key);
+
+            return $data;
+        }
+
+        return null;
+    }
 }

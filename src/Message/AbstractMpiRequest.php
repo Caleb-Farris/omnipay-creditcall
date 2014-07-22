@@ -32,6 +32,16 @@ abstract class AbstractMpiRequest extends AbstractRequest
         return $data;
     }
 
+    public function getMd()
+    {
+        return $this->getParameter('md');
+    }
+
+    public function setMd($value)
+    {
+        return $this->setParameter('md', $value);
+    }
+
     public function sendData($data)
     {
         $headers = array(

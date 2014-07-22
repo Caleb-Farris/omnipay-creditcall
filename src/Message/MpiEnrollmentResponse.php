@@ -56,4 +56,17 @@ class MpiEnrollmentResponse extends AbstractMpiResponse
 
         return null;
     }
+
+    public function storeData($additionalData = array())
+    {
+        /** @var TemporaryStorageInterface $temporaryStorageDriver */
+        $temporaryStorageDriver = $this->getTemporaryStorageDriver();
+        if ($temporaryStorageDriver) {
+            $key = $this->request->getMd();
+            $temporaryStorageDriver->put($key, array(
+                'cardHolderEnrolled' => $this->getCardHolderEnrolled(),
+                'additionalData' => $additionalData,
+            ));
+        }
+    }
 }

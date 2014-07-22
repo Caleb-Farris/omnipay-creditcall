@@ -11,6 +11,11 @@ use Omnipay\Common\Message\RequestInterface;
  */
 abstract class AbstractMpiResponse extends AbstractResponse implements RedirectResponseInterface
 {
+    /**
+     * @var TemporaryStorageInterface
+     */
+    public $temporaryStorageDriver;
+
     public function __construct(RequestInterface $request, $data)
     {
         $this->request = $request;
@@ -55,5 +60,15 @@ abstract class AbstractMpiResponse extends AbstractResponse implements RedirectR
     public function getRedirectData()
     {
         return null;
+    }
+
+    public function setTemporaryStorageDriver(TemporaryStorageInterface $driver)
+    {
+        $this->temporaryStorageDriver = $driver;
+    }
+
+    protected function getTemporaryStorageDriver()
+    {
+        return $this->temporaryStorageDriver;
     }
 }
