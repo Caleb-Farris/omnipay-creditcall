@@ -27,6 +27,8 @@ class MpiAuthenticationRequest extends AbstractMpiRequest
 
     public function getData()
     {
+        $this->validate('password', 'payerAuthenticationResponse');
+
         $data = $this->getBaseData();
 
         /** @var CreditCard $card */

@@ -7,6 +7,7 @@ namespace Omnipay\Creditcall\Message;
  */
 class MpiEnrollmentResponse extends AbstractMpiResponse
 {
+    protected $storeKey;
 
     public function isSuccessful()
     {
@@ -48,7 +49,7 @@ class MpiEnrollmentResponse extends AbstractMpiResponse
     {
         if ($this->isRedirect()) {
             return array(
-                'MD' => $this->request->getMd(),
+                'MD' => $this->storeKey(),
                 'PaReq' => $this->getPayerAuthenticationRequest(),
                 'TermUrl' => $this->request->getReturnUrl(),
             );
@@ -62,11 +63,30 @@ class MpiEnrollmentResponse extends AbstractMpiResponse
         /** @var TemporaryStorageInterface $temporaryStorageDriver */
         $temporaryStorageDriver = $this->getTemporaryStorageDriver();
         if ($temporaryStorageDriver) {
-            $key = $this->request->getMd();
-            $temporaryStorageDriver->put($key, array(
+            $temporaryStorageDriver->put($this->storeKey(), array(
                 'cardHolderEnrolled' => $this->getCardHolderEnrolled(),
                 'additionalData' => $additionalData,
             ));
         }
+    }
+
+    public function storeKey()
+    {
+        if (is_null($this->storeKey)) {
+            $this->storeKey = $this->generateRandomString();
+        }
+
+        return $this->storeKey;
+    }
+
+    protected function generateRandomString($length = 20)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, strlen($characters) - 1)];
+        }
+
+        return $randomString;
     }
 }

@@ -16,12 +16,12 @@ $action = isset($_GET['action']) ? $_GET['action'] : null;
 switch ($action) {
     case 'return':
 
-        $data = array(
-            'md' => isset($_POST['MD']) ? $_POST['MD'] : '',
-            'payerAuthenticationResponse' => isset($_POST['PaRes']) ? $_POST['PaRes'] : '',
-        );
+        $payerAuthenticationResponse = isset($_POST['PaRes']) ? $_POST['PaRes'] : '';
+        $storeKey = isset($_POST['MD']) ? $_POST['MD'] : '';
 
-        $request = $g->completeAuthorize($data);
+        $request = $g->completeAuthorize(array(
+            'payerAuthenticationResponse' => $payerAuthenticationResponse,
+        ));
         $response = $request->send();
 
         if ($response->isSuccessful()) {
@@ -32,14 +32,16 @@ switch ($action) {
             echo 'IAV: ' . $response->getIav() .'<br>';
             echo 'IAV Algorithm: ' . $response->getIavAlgorithm() .'<br>';
 
-            $response->setTemporaryStorageDriver(new \TemporaryStorage());
-            $data = $response->restoreData();
-            var_dump($data);
-
         } else {
             echo 'Request not successful';
             var_dump($response->getData());
         }
+
+        $response->setTemporaryStorageDriver(new \TemporaryStorage());
+        $data = $response->restoreData($storeKey);
+        var_dump($data);
+
+        echo '<br><br><a href="' . url('mpi.php', false) . '">Rerun</a>';
 
         break;
 
@@ -59,7 +61,6 @@ switch ($action) {
             'amount'			=> '66.66',
             'card' 				=> $creditCard,
             'returnUrl'			=> url('mpi.php?action=return'),
-            'md'                => 'aa213'
         );
 
 
@@ -70,12 +71,10 @@ switch ($action) {
 
             if ($response->isRedirect()) {
 
-                $response->setTemporaryStorageDriver(new \TemporaryStorage());
-                $response->storeData();
+                $temporaryStorage = new \TemporaryStorage();
+                $response->setTemporaryStorageDriver($temporaryStorage);
+                $response->storeData($data);
 
-                $a = (new \TemporaryStorage())->get('aa213');
-                var_dump($_SESSION, $a);
-                exit;
                 $response->getRedirectResponse()->send();
                 exit;
             } else {

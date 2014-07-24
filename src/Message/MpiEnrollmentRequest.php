@@ -42,10 +42,13 @@ class MpiEnrollmentRequest extends AbstractMpiRequest
 
     public function getData()
     {
+        $this->validate('acquirerBin', 'amount', 'currency', 'merchantId', 'password');
+
         $data = $this->getBaseData();
 
         /** @var CreditCard $card */
         $card = $this->getCard();
+        $card->validate();
 
         $enrollment = $data->addChild('Enrollment');
 

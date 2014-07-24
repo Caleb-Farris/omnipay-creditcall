@@ -8,6 +8,7 @@ interface TemporaryStorageInterface
      * Stores encrypted data in temporary storage.
      *
      * @param $key string
+     * @param $encryptionKey string
      * @param $data mixed
      * @return void
      */
@@ -17,6 +18,7 @@ interface TemporaryStorageInterface
      * Returns decrypted data from temporary storage.
      *
      * @param $key string
+     * @param $encryptionKey string
      * @return mixed
      */
     public function get($key);

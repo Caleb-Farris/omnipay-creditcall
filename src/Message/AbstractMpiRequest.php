@@ -7,7 +7,7 @@ use SimpleXMLElement;
 
 /**
  * Creditcall Abstract 3D Secure Request
- * @method AbstractMpiResponse send()
+ * @method Abstrampsend()
  */
 abstract class AbstractMpiRequest extends AbstractRequest
 {
@@ -30,16 +30,6 @@ abstract class AbstractMpiRequest extends AbstractRequest
         $data = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><Request/>');
 
         return $data;
-    }
-
-    public function getMd()
-    {
-        return $this->getParameter('md');
-    }
-
-    public function setMd($value)
-    {
-        return $this->setParameter('md', $value);
     }
 
     public function sendData($data)
