@@ -15,6 +15,8 @@ use Omnipay\Creditcall\Message\DirectVoidRequest;
  */
 class DirectGateway extends AbstractGateway
 {
+    const AAA = 1;
+
     public function getName()
     {
         return 'Creditcall CardEaseXML Gateway';

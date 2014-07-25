@@ -1,6 +1,7 @@
 <?php
 
 namespace Omnipay\Creditcall\Message;
+use Omnipay\Creditcall\Constant;
 
 /**
  * Creditcall 3D Secure Enrollment Response
@@ -17,7 +18,7 @@ class MpiEnrollmentResponse extends AbstractMpiResponse
     public function getCardHolderEnrolled()
     {
         return isset($this->data->Enrollment->CardHolderEnrolled) ?
-            strtoupper($this->data->Enrollment->CardHolderEnrolled) : null;
+            strtoupper($this->data->Enrollment->CardHolderEnrolled) : Constant::CARD_HOLDER_ENROLLED_NONE_MPI;
     }
 
     public function getPayerAuthenticationRequest()
@@ -28,7 +29,7 @@ class MpiEnrollmentResponse extends AbstractMpiResponse
 
     public function isRedirect()
     {
-        if ($this->getCardHolderEnrolled() === 'Y') {
+        if ($this->getCardHolderEnrolled() === Constant::CARD_HOLDER_ENROLLED_YES_MPI) {
             return true;
         }
 

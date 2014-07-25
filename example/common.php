@@ -1,7 +1,5 @@
 <?php
 
-use Omnipay\Creditcall\Message\TemporaryStorageInterface;
-
 require '../vendor/autoload.php';
 require 'Crypt.php';
 session_start();

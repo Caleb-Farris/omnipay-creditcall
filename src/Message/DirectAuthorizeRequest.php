@@ -3,6 +3,9 @@
 namespace Omnipay\Creditcall\Message;
 
 use Omnipay\Common\CreditCard;
+use Omnipay\Common\Exception\InvalidRequestException;
+use Omnipay\Creditcall\Constant;
+use Omnipay\Creditcall\DirectGateway;
 
 /**
  * Creditcall Direct Authorize Request
@@ -206,32 +209,27 @@ class DirectAuthorizeRequest extends AbstractDirectRequest
         return $this->getParameter('threeDSecureCardHolderEnrolled');
     }
 
-    public function getThreeDSecureCardHolderEnrolledTranslated()
-    {
-        $mpiParameter = $this->getParameter('threeDSecureCardHolderEnrolled');
-
-        $xmlParameter = null;
-        switch($mpiParameter)
-        {
-            case 'Y':
-                $xmlParameter = 'Yes';
-                break;
-            case 'N':
-                $xmlParameter = 'No';
-                break;
-            case 'U':
-                $xmlParameter = 'Unknown';
-                break;
-            default:
-                $xmlParameter = 'None';
-        }
-
-        return $xmlParameter;
-    }
-
     public function setThreeDSecureCardHolderEnrolled($value)
     {
-        return $this->setParameter('threeDSecureCardHolderEnrolled', $value);
+        switch($value)
+        {
+            case Constant::CARD_HOLDER_ENROLLED_YES_MPI:
+            case Constant::CARD_HOLDER_ENROLLED_YES_DIRECT:
+                $unifiedValue = Constant::CARD_HOLDER_ENROLLED_YES_DIRECT;
+                break;
+            case Constant::CARD_HOLDER_ENROLLED_NO_MPI:
+            case Constant::CARD_HOLDER_ENROLLED_NO_DIRECT:
+                $unifiedValue = Constant::CARD_HOLDER_ENROLLED_NO_DIRECT;
+                break;
+            case Constant::CARD_HOLDER_ENROLLED_UNKNOWN_MPI:
+            case Constant::CARD_HOLDER_ENROLLED_UNKNOWN_DIRECT:
+                $unifiedValue = Constant::CARD_HOLDER_ENROLLED_UNKNOWN_DIRECT;
+                break;
+            default:
+                $unifiedValue = Constant::CARD_HOLDER_ENROLLED_NONE_DIRECT;
+        }
+
+        return $this->setParameter('threeDSecureCardHolderEnrolled', $unifiedValue);
     }
 
     public function getThreeDSecureTransactionStatus()
@@ -239,35 +237,31 @@ class DirectAuthorizeRequest extends AbstractDirectRequest
         return $this->getParameter('threeDSecureTransactionStatus');
     }
 
-    public function getThreeDSecureTransactionStatusTranslated()
-    {
-        $mpiParameter = $this->getParameter('threeDSecureTransactionStatus');
-
-        $xmlParameter = null;
-        switch($mpiParameter)
-        {
-            case 'Y':
-                $xmlParameter = 'Successful';
-                break;
-            case 'N':
-                $xmlParameter = 'Failed';
-                break;
-            case 'U':
-                $xmlParameter = 'Unknown';
-                break;
-            case 'A':
-                $xmlParameter = 'Attempted';
-                break;
-            default:
-                $xmlParameter = 'None';
-        }
-
-        return $xmlParameter;
-    }
-
     public function setThreeDSecureTransactionStatus($value)
     {
-        return $this->setParameter('threeDSecureTransactionStatus', $value);
+        switch($value)
+        {
+            case Constant::TRANSACTION_STATUS_SUCCESSFUL_MPI:
+            case Constant::TRANSACTION_STATUS_SUCCESSFUL_DIRECT:
+                $unifiedValue = Constant::TRANSACTION_STATUS_SUCCESSFUL_DIRECT;
+                break;
+            case Constant::TRANSACTION_STATUS_FAILED_MPI:
+            case Constant::TRANSACTION_STATUS_FAILED_DIRECT:
+                $unifiedValue = Constant::TRANSACTION_STATUS_FAILED_DIRECT;
+                break;
+            case Constant::TRANSACTION_STATUS_UNKNOWN_MPI:
+            case Constant::TRANSACTION_STATUS_UNKNOWN_DIRECT:
+                $unifiedValue = Constant::TRANSACTION_STATUS_UNKNOWN_DIRECT;
+                break;
+            case Constant::TRANSACTION_STATUS_ATTEMPTED_MPI:
+            case Constant::TRANSACTION_STATUS_ATTEMPTED_DIRECT:
+                $unifiedValue = Constant::TRANSACTION_STATUS_ATTEMPTED_DIRECT;
+                break;
+            default:
+                $unifiedValue = Constant::TRANSACTION_STATUS_NONE_DIRECT;
+        }
+
+        return $this->setParameter('threeDSecureTransactionStatus', $unifiedValue);
     }
 
     public function getThreeDSecureEci()
@@ -302,15 +296,22 @@ class DirectAuthorizeRequest extends AbstractDirectRequest
 
     public function setThreeDSecureCredentials(\SimpleXMLElement &$data)
     {
+        if ($this->getThreeDSecureTransactionStatus() == 'Failed') {
+            throw new InvalidRequestException(
+                'The card holder was enrolled and authentication'
+                . ' failed. 3-D Secure authorization failed.'
+            );
+        }
+
         $threeDSecure = $data->addChild('ThreeDSecure');
 
-        $threeDSecure->addChild('CardHolderEnrolled', $this->getThreeDSecureCardHolderEnrolledTranslated());
+        $threeDSecure->addChild('CardHolderEnrolled', $this->getThreeDSecureCardHolderEnrolled());
         $threeDSecure->addChild('ECI', $this->getThreeDSecureEci());
 
         $iav = $threeDSecure->addChild('IAV', $this->getThreeDSecureIav());
         $iav->addAttribute('algorithm', $this->getThreeDSecureIavAlgorithm());
         $iav->addAttribute('format', 'base64');
 
-        $threeDSecure->addChild('TransactionStatus', $this->getThreeDSecureTransactionStatusTranslated());
+        $threeDSecure->addChild('TransactionStatus', $this->getThreeDSecureTransactionStatus());
     }
 }

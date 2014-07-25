@@ -1,6 +1,7 @@
 <?php
 
 namespace Omnipay\Creditcall\Message;
+use Omnipay\Creditcall\Constant;
 
 /**
  * Creditcall 3D Secure Authentication Response
@@ -16,7 +17,7 @@ class MpiAuthenticationResponse extends AbstractMpiResponse
     public function getTransactionStatus()
     {
         return isset($this->data->Authentication->TransactionStatus) ?
-            strtoupper((string)$this->data->Authentication->TransactionStatus) : null;
+            strtoupper((string)$this->data->Authentication->TransactionStatus) : Constant::TRANSACTION_STATUS_NONE_MPI;
     }
 
     public function getEci()
