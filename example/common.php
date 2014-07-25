@@ -15,7 +15,7 @@ function url($route, $include_query = true)
     return $current_dir . $route . $query_string;
 }
 
-class TemporaryStorage implements TemporaryStorageInterface
+class TemporaryStorage
 {
     protected $sessionKey = 'temporaryStorage';
 

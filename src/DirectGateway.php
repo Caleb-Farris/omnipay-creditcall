@@ -29,7 +29,6 @@ class DirectGateway extends AbstractGateway
             'verifyCvv' => true,
             'verifyAddress' => false,
             'verifyZip' => false,
-            'threeDSecureRequired' => false,
         );
     }
 
@@ -98,15 +97,6 @@ class DirectGateway extends AbstractGateway
     {
         return $this->setParameter('transactionKey', $value);
     }
-    public function getPassword()
-    {
-        return $this->getParameter('password');
-    }
-
-    public function setPassword($value)
-    {
-        return $this->setParameter('password', $value);
-    }
 
     public function getVerifyCvv()
     {
@@ -136,15 +126,5 @@ class DirectGateway extends AbstractGateway
     public function setVerifyZip($value)
     {
         return $this->setParameter('verifyZip', $value);
-    }
-
-    public function getThreeDSecureRequired()
-    {
-        return $this->getParameter('threeDSecureRequired');
-    }
-
-    public function setThreeDSecureRequired($value)
-    {
-        return $this->setParameter('threeDSecureRequired', $value);
     }
 }

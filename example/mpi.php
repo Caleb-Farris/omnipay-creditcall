@@ -2,6 +2,10 @@
 
 namespace Omnipay;
 
+use Omnipay\Creditcall\Message\MpiAuthenticationRequest;
+use Omnipay\Creditcall\Message\MpiAuthenticationResponse;
+use Omnipay\Creditcall\Message\MpiEnrollmentRequest;
+use Omnipay\Creditcall\Message\MpiEnrollmentResponse;
 use Omnipay\Creditcall\MpiGateway;
 
 require 'common.php';
@@ -17,11 +21,19 @@ switch ($action) {
     case 'return':
 
         $payerAuthenticationResponse = isset($_POST['PaRes']) ? $_POST['PaRes'] : '';
-        $storeKey = isset($_POST['MD']) ? $_POST['MD'] : '';
+        $md = isset($_POST['MD']) ? $_POST['MD'] : '';
 
+        $temporaryStorage = new \TemporaryStorage();
+        $data = $temporaryStorage->get($md);
+        $temporaryStorage->forget($md);
+
+        var_dump($data);
+
+        /** @var MpiAuthenticationRequest $request */
         $request = $g->completeAuthorize(array(
             'payerAuthenticationResponse' => $payerAuthenticationResponse,
         ));
+        /** @var MpiAuthenticationResponse $response */
         $response = $request->send();
 
         if ($response->isSuccessful()) {
@@ -36,10 +48,6 @@ switch ($action) {
             echo 'Request not successful';
             var_dump($response->getData());
         }
-
-        $response->setTemporaryStorageDriver(new \TemporaryStorage());
-        $data = $response->restoreData($storeKey);
-        var_dump($data);
 
         echo '<br><br><a href="' . url('mpi.php', false) . '">Rerun</a>';
 
@@ -63,8 +71,9 @@ switch ($action) {
             'returnUrl'			=> url('mpi.php?action=return'),
         );
 
-
+        /** @var MpiEnrollmentRequest $request */
         $request = $g->authorize($data);
+        /** @var MpiEnrollmentResponse $response */
         $response = $request->send();
 
         if ($response->isSuccessful()) {
@@ -72,8 +81,10 @@ switch ($action) {
             if ($response->isRedirect()) {
 
                 $temporaryStorage = new \TemporaryStorage();
-                $response->setTemporaryStorageDriver($temporaryStorage);
-                $response->storeData($data);
+                $temporaryStorage->put($response->getMd(), array(
+                    'cardHolderEnrolled' => $response->getCardHolderEnrolled(),
+                    'additionalData' => array(),
+                ));
 
                 $response->getRedirectResponse()->send();
                 exit;

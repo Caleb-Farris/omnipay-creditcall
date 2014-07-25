@@ -2,24 +2,20 @@
 
 namespace Omnipay;
 
+use Omnipay\Creditcall\DirectGateway;
+use Omnipay\Creditcall\Message\ThreeDSecureAuthenticationResponse;
+
 require 'common.php';
 
+/** @var DirectGateway $g */
 $g = Omnipay::create('Creditcall_Direct');
 $g->setTerminalId('99960713');
 $g->setTransactionKey('5CbEvg8hXCe3ASs6');
-$g->setPassword('P@ssw0rd');
 $g->setTestMode(true);
-$g->setThreeDSecureRequired(true);
 
 $creditCard = new \Omnipay\Common\CreditCard(array(
-//    'number'            => '5123450000000008',
-//    'cvv'               => '513',
-//    'number'            => '4123450131003312',
-//    'cvv'               => '412',
     'number'            => '4111111111111111',
     'cvv'               => '412',
-//    'number'            => '4012000033330026',
-//    'cvv'               => '412',
     'expiryMonth'       => '12',
     'expiryYear'        => '20',
     'firstName'			=> 'Firstname',
@@ -43,31 +39,21 @@ $data = array(
     'returnUrl'			=> url('conf.php'),
 );
 
-$request = $g->threeDSecureEnrollment($data);
+//$threeDSecureData = array(
+//    'threeDSecureCardHolderEnrolled' => $cardHolderEnrolled,
+//    'threeDSecureTransactionStatus' => $response->getTransactionStatus(),
+//    'threeDSecureEci' => $response->getEci(),
+//    'threeDSecureIav' => $response->getIav(),
+//    'threeDSecureIavAlgorithm' => $response->getIavAlgorithm(),
+//);
+
+$request = $g->purchase($data);
 $response = $request->send();
 
 if ($response->isSuccessful()) {
-
-    if ($response->isRedirect()) {
-        $_SESSION['payment'] = serialize(array(
-            'data' => $data,
-            '3d' => true,
-            'cardHolderEnrolled' => $response->getCardHolderEnrolled(),
-        ));
-
-        $response->getRedirectResponse()->send();
-        exit;
-    } else {
-        $_SESSION['payment'] = serialize(array(
-            'data' => $data,
-            '3d' => false,
-            'cardHolderEnrolled' => $response->getCardHolderEnrolled(),
-        ));
-
-        header('Location: ' . url('conf.php'));
-        exit;
-    }
-
+    echo 'Request successful';
+    var_dump($response->getData());
 } else {
+    echo 'Request not successful';
     var_dump($response->getData());
 }
