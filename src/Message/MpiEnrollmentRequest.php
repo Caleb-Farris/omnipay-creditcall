@@ -15,26 +15,6 @@ class MpiEnrollmentRequest extends AbstractMpiRequest
         return $this->response = new MpiEnrollmentResponse($this, $data);
     }
 
-    public function getAcquirerBin()
-    {
-        return $this->getParameter('acquirerBin');
-    }
-
-    public function setAcquirerBin($value)
-    {
-        return $this->setParameter('acquirerBin', $value);
-    }
-
-    public function getMerchantId()
-    {
-        return $this->getParameter('merchantId');
-    }
-
-    public function setMerchantId($value)
-    {
-        return $this->setParameter('merchantId', $value);
-    }
-
     public function getXid()
     {
         return substr(md5(microtime(true) . $this->getPassword() . rand()), 0, 20);
@@ -42,7 +22,7 @@ class MpiEnrollmentRequest extends AbstractMpiRequest
 
     public function getData()
     {
-        $this->validate('acquirerBin', 'amount', 'currency', 'merchantId', 'password');
+        $this->validate('password', 'acquirerBin', 'merchantId', 'amount', 'currency');
 
         $data = $this->getBaseData();
 

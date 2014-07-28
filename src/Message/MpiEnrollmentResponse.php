@@ -1,6 +1,7 @@
 <?php
 
 namespace Omnipay\Creditcall\Message;
+
 use Omnipay\Creditcall\Constant;
 
 /**

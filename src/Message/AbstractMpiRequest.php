@@ -25,6 +25,26 @@ abstract class AbstractMpiRequest extends AbstractRequest
         return $this->setParameter('password', $value);
     }
 
+    public function getAcquirerBin()
+    {
+        return $this->getParameter('acquirerBin');
+    }
+
+    public function setAcquirerBin($value)
+    {
+        return $this->setParameter('acquirerBin', $value);
+    }
+
+    public function getMerchantId()
+    {
+        return $this->getParameter('merchantId');
+    }
+
+    public function setMerchantId($value)
+    {
+        return $this->setParameter('merchantId', $value);
+    }
+
     protected function getBaseData()
     {
         $data = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><Request/>');

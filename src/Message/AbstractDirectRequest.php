@@ -69,7 +69,7 @@ abstract class AbstractDirectRequest extends AbstractRequest
 
     public function getThreeDSecureRequired()
     {
-        return $this->getParameter('threeDSecureRequired');
+        return $this->getParameter('threeDSecureRequired') == true;
     }
 
     public function setThreeDSecureRequired($value)
