@@ -25,17 +25,17 @@ abstract class AbstractMpiResponse extends AbstractResponse implements RedirectR
 
     public function getCode()
     {
-        return isset($this->data->Response->Error->Code) ? (string)$this->data->Response->Error->Code : null;
+        return isset($this->data->Error->Code) ? (string)$this->data->Error->Code : null;
     }
 
     public function getMessage()
     {
-        return isset($this->data->Response->Error->Message) ? (string)$this->data->Response->Error->Message : null;
+        return isset($this->data->Error->Message) ? (string)$this->data->Error->Message : null;
     }
 
     public function getDetailMessage()
     {
-        return isset($this->data->Response->Error->Detail) ? (string)$this->data->Response->Error->Detail : null;
+        return isset($this->data->Error->Detail) ? (string)$this->data->Error->Detail : null;
     }
 
     public function isRedirect()

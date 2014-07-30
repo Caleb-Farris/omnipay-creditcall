@@ -52,14 +52,14 @@ class MpiGateway extends AbstractGateway
         return $this->setParameter('password', $value);
     }
 
-    public function getAcquirerBin()
+    public function getAcquirer()
     {
-        return $this->getParameter('acquirerBin');
+        return $this->getParameter('acquirer');
     }
 
-    public function setAcquirerBin($value)
+    public function setAcquirer($value)
     {
-        return $this->setParameter('acquirerBin', $value);
+        return $this->setParameter('acquirer', $value);
     }
 
     public function getMerchantId()
