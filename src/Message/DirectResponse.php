@@ -11,6 +11,7 @@ use Omnipay\Common\Message\RequestInterface;
  */
 class DirectResponse extends AbstractResponse implements RedirectResponseInterface
 {
+
     public function __construct(RequestInterface $request, $data)
     {
         $this->request = $request;
@@ -41,7 +42,10 @@ class DirectResponse extends AbstractResponse implements RedirectResponseInterfa
 
         $errors = array();
         foreach ((array)$this->data->Result->Errors as $error) {
-            $errors[] = (string)$error;
+            $error = (string)$error;
+            if ($error !== '') {
+                $errors[] = $this->mapError($error);
+            }
         }
 
         return $errors;
@@ -70,5 +74,25 @@ class DirectResponse extends AbstractResponse implements RedirectResponseInterfa
     public function getRedirectData()
     {
         return array();
+    }
+
+    protected function mapError($error)
+    {
+        $errorsMap = array(
+            'CSC Invalid Length.'                       => 'The CVV provided is invalid.',
+            'AmountTooSmall'                            => 'The amount is too small for payment to be processed.',
+            'cvv_not_matched'                           => 'The CVV provided is invalid.',
+            'address_not_matched'                       => 'The Address provided is invalid.',
+            'zip_not_matched'                           => 'The Zip code provided is invalid.',
+            'three_d_secure_authorization_failed'       =>
+                'Error occurred while processing payment.' .
+                ' 3-D Secure authorization was not fully successful.',
+        );
+
+        if (array_key_exists($error, $errorsMap)) {
+            return $errorsMap[$error];
+        }
+
+        return $error;
     }
 }

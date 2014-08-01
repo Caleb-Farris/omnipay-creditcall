@@ -14,6 +14,11 @@ class DirectAuthorizeRequest extends AbstractDirectRequest
 {
     protected $action = 'Auth';
 
+    protected function createResponse($data)
+    {
+        return $this->response = new DirectAuthorizeResponse($this, $data);
+    }
+
     public function getData()
     {
         $this->validate('amount');
@@ -206,7 +211,8 @@ class DirectAuthorizeRequest extends AbstractDirectRequest
 
     public function getThreeDSecureCardHolderEnrolled()
     {
-        return $this->getParameter('threeDSecureCardHolderEnrolled');
+        return is_null($this->getParameter('threeDSecureCardHolderEnrolled')) ?
+            Constant::CARD_HOLDER_ENROLLED_NONE_DIRECT : $this->getParameter('threeDSecureCardHolderEnrolled');
     }
 
     public function setThreeDSecureCardHolderEnrolled($value)
@@ -234,7 +240,8 @@ class DirectAuthorizeRequest extends AbstractDirectRequest
 
     public function getThreeDSecureTransactionStatus()
     {
-        return $this->getParameter('threeDSecureTransactionStatus');
+        return is_null($this->getParameter('threeDSecureTransactionStatus')) ?
+            Constant::TRANSACTION_STATUS_NONE_DIRECT : $this->getParameter('threeDSecureTransactionStatus');
     }
 
     public function setThreeDSecureTransactionStatus($value)
