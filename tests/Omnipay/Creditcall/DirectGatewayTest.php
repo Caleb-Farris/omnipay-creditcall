@@ -72,7 +72,7 @@ class DirectGatewayTest extends GatewayTestCase
 
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
-        $this->assertSame(array(), $response->getMessage());
+        $this->assertSame(array('The CVV provided is invalid.'), $response->getMessage());
     }
 
     public function testPurchaseSuccess()
@@ -102,7 +102,7 @@ class DirectGatewayTest extends GatewayTestCase
         $this->assertSame('true', (string)$requestData->TransactionDetails->MessageType->attributes()->autoconfirm);
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
-        $this->assertSame(array(), $response->getMessage());
+        $this->assertSame(array('The CVV provided is invalid.'), $response->getMessage());
     }
 
     public function testCaptureSuccess()
