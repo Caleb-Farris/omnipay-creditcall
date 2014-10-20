@@ -3,6 +3,7 @@
 namespace Omnipay\Creditcall\Message;
 
 use Omnipay\Common\CreditCard;
+use Omnipay\Creditcall\Constant;
 use Omnipay\Tests\TestCase;
 
 class DirectAuthorizeRequestTest extends TestCase
@@ -112,5 +113,32 @@ class DirectAuthorizeRequestTest extends TestCase
         $this->assertSame($card->getShippingFirstName(), (string)$contact->Name->FirstName);
         $this->assertSame($card->getShippingLastName(), (string)$contact->Name->LastName);
         $this->assertSame($card->getShippingPhone(), (string)$contact->PhoneNumberList->PhoneNumber[0]);
+    }
+
+    public function testThreeDSecureData()
+    {
+        $this->request = new DirectAuthorizeRequest($this->getHttpClient(), $this->getHttpRequest());
+        $this->request->initialize(
+            array(
+                'terminalId' => '923632313',
+                'transactionKey' => '23ASDas3d323ASs6',
+                'testMode' => true,
+                'amount' => '12.00',
+                'currency' => 'GBP',
+                'transactionId' => '123',
+                'card' => $this->getValidCard(),
+                'verifyCvv' => true,
+                'threeDSecureRequired' => true,
+                'threeDSecureCardHolderEnrolled' => Constant::CARD_HOLDER_ENROLLED_YES_MPI,
+                'threeDSecureTransactionStatus' => Constant::TRANSACTION_STATUS_SUCCESSFUL_MPI,
+            )
+        );
+
+        $data = $this->request->getData();
+        $threeDSecure = $data->CardDetails->ThreeDSecure;
+
+        $this->assertSame(Constant::CARD_HOLDER_ENROLLED_YES_DIRECT, (string)$threeDSecure->CardHolderEnrolled);
+        $this->assertSame(Constant::TRANSACTION_STATUS_SUCCESSFUL_DIRECT, (string)$threeDSecure->TransactionStatus);
+        $this->assertSame()
     }
 }
