@@ -139,6 +139,5 @@ class DirectAuthorizeRequestTest extends TestCase
 
         $this->assertSame(Constant::CARD_HOLDER_ENROLLED_YES_DIRECT, (string)$threeDSecure->CardHolderEnrolled);
         $this->assertSame(Constant::TRANSACTION_STATUS_SUCCESSFUL_DIRECT, (string)$threeDSecure->TransactionStatus);
-        $this->assertSame()
     }
 }
