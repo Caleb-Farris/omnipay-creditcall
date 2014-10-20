@@ -1,5 +1,5 @@
 {
-    "name": "doubleking/omnipay-creditcall",
+    "name": "jan-j/omnipay-creditcall",
     "type": "library",
     "description": "Creditcall driver for the Omnipay payment processing library",
     "keywords": [
@@ -10,7 +10,7 @@
         "omnipay",
         "cardeasexml"
     ],
-    "homepage": "https://github.com/doubleking/omnipay-creditcall",
+    "homepage": "https://github.com/Jan-J/omnipay-creditcall",
     "license": "MIT",
     "authors": [
         {
