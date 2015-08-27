@@ -58,7 +58,14 @@ abstract class AbstractMpiRequest extends AbstractRequest
             'Content-Type' => 'text/xml',
         );
 
-        $httpResponse = $this->httpClient->post($this->getEndpoint(), $headers, $data->asXML())->send();
+        $httpResponse = $this->httpClient
+            ->post(
+                $this->getEndpoint(),
+                $headers,
+                $data->asXML(),
+                $this->getOptions()
+            )
+            ->send();
         return $this->createResponse($httpResponse->xml());
     }
 
@@ -69,6 +76,17 @@ abstract class AbstractMpiRequest extends AbstractRequest
         }
 
         return $this->liveEndpoint;
+    }
+
+    protected function getOptions()
+    {
+        $options = array();
+
+        if ($this->getTestMode()) {
+            $options['verify'] = false;
+        }
+
+        return $options;
     }
 
     abstract protected function createResponse($data);
