@@ -36,7 +36,7 @@ class DirectAuthorizeRequest extends AbstractDirectRequest
         $cardDetails = $data->addChild('CardDetails');
 
         $manual = $cardDetails->addChild('Manual');
-        $manual->addAttribute('type', 'cnp');
+        $manual->addAttribute('type', 'ecommerce');
 
         //If this is a Token payment, add the Token data item, otherwise its a normal card purchase.
         if ($this->getCardReference()) {
