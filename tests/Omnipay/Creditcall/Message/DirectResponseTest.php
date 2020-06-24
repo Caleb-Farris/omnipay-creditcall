@@ -10,7 +10,8 @@ class DirectResponseTest extends TestCase
     {
         // same as in DirectGatewayTest
         $httpResponse = $this->getMockHttpResponse('DirectAuthorizeSuccess.txt');
-        $response = new DirectResponse($this->getMockRequest(), $httpResponse->xml());
+        $xml =  simplexml_load_string($httpResponse->getBody()->getContents());
+        $response = new DirectResponse($this->getMockRequest(), $xml);
 
         $this->assertTrue($response->isSuccessful());
         $this->assertFalse($response->isRedirect());

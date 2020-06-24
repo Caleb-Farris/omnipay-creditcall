@@ -51,6 +51,16 @@ class DirectResponse extends AbstractResponse implements RedirectResponseInterfa
         return $errors;
     }
 
+    public function getCode()
+    {
+        return isset($this->data->Result->LocalResult) ? (string)$this->data->Result->LocalResult : null;
+    }
+
+    public function getCardType()
+    {
+        return isset($this->data->CardDetails->CardScheme) ? (string)$this->data->CardDetails->CardScheme->Description : null;
+    }
+
     public function getCardReference()
     {
         return isset($this->data->CardDetails->CardReference) ? (string)$this->data->CardDetails->CardReference : null;
@@ -60,6 +70,12 @@ class DirectResponse extends AbstractResponse implements RedirectResponseInterfa
     {
         return isset($this->data->CardDetails->CardHash) ? (string)$this->data->CardDetails->CardHash : null;
     }
+
+    public function getAuthCode()
+    {
+        return isset($this->data->Result->AuthCode) ? (string)$this->data->Result->AuthCode : null;
+    }
+
 
     public function getRedirectUrl()
     {

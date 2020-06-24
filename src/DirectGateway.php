@@ -12,6 +12,13 @@ use Omnipay\Creditcall\Message\DirectVoidRequest;
 
 /**
  * Creditcall CardEaseXML Gateway
+ * @method \Omnipay\Common\Message\NotificationInterface acceptNotification(array $options = array())
+ * @method \Omnipay\Common\Message\RequestInterface completeAuthorize(array $options = array())
+ * @method \Omnipay\Common\Message\RequestInterface completePurchase(array $options = array())
+ * @method \Omnipay\Common\Message\RequestInterface fetchTransaction(array $options = [])
+ * @method \Omnipay\Common\Message\RequestInterface createCard(array $options = array())
+ * @method \Omnipay\Common\Message\RequestInterface updateCard(array $options = array())
+ * @method \Omnipay\Common\Message\RequestInterface deleteCard(array $options = array())
  */
 class DirectGateway extends AbstractGateway
 {
@@ -128,5 +135,16 @@ class DirectGateway extends AbstractGateway
     public function setVerifyZip($value)
     {
         return $this->setParameter('verifyZip', $value);
+    }
+
+    public function __call($name, $arguments)
+    {
+        // TODO: Implement @method \Omnipay\Common\Message\NotificationInterface acceptNotification(array $options = array())
+        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface completeAuthorize(array $options = array())
+        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface completePurchase(array $options = array())
+        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface fetchTransaction(array $options = [])
+        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface createCard(array $options = array())
+        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface updateCard(array $options = array())
+        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface deleteCard(array $options = array())
     }
 }

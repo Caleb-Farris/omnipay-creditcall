@@ -39,7 +39,7 @@ class DirectAuthorizeTokenRequestTest extends TestCase
 
         $manual = $data->CardDetails->Manual;
 
-        $this->assertSame('cnp', (string)$manual->attributes()->type);
+        $this->assertSame('ecommerce', (string)$manual->attributes()->type);
         $this->assertSame('a4f483ca-55fc-e311-8ca6-001422187e37', (string)$manual->CardReference);
         $this->assertSame('qo3tCvArxWUxsCONcIWGyHUhXKs=', (string)$manual->CardHash);
 

@@ -1,5 +1,5 @@
 {
-    "name": "jan-j/omnipay-creditcall",
+    "name": "omnispear/omnipay-creditcall",
     "type": "library",
     "description": "Creditcall driver for the Omnipay payment processing library",
     "keywords": [
@@ -16,16 +16,21 @@
         {
             "name": "Jan Jablonski",
             "email": "jablonski.kce@gmail.com"
+        },
+        {
+            "name": "Cody Butz",
+            "email": "cbutz@omnispear.com"
         }
     ],
     "autoload": {
         "psr-4": { "Omnipay\\Creditcall\\" : "src/" }
     },
     "require": {
-        "omnipay/common": "~2.0"
+        "omnipay/common": "~3.0",
+        "ext-simplexml": "*"
     },
     "require-dev": {
-        "omnipay/tests": "~2.0"
+        "omnipay/tests": "~3.0"
     },
     "extra": {
         "branch-alias": {

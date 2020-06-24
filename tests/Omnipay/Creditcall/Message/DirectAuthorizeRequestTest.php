@@ -60,7 +60,7 @@ class DirectAuthorizeRequestTest extends TestCase
 
         $manual = $data->CardDetails->Manual;
 
-        $this->assertSame('cnp', (string)$manual->attributes()->type);
+        $this->assertSame('ecommerce', (string)$manual->attributes()->type);
         $this->assertSame($card->getNumber(), (string)$manual->PAN);
         $this->assertSame($card->getExpiryDate('ym'), (string)$manual->ExpiryDate);
         $this->assertSame('', (string)$manual->StartDate);

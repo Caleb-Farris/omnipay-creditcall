@@ -101,9 +101,10 @@ abstract class AbstractDirectRequest extends AbstractRequest
         $headers = array(
             'Content-Type' => 'text/xml',
         );
-        $httpResponse = $this->httpClient->post($this->getEndpoint(), $headers, $data->asXML())->send();
+        $httpResponse = $this->httpClient->request('POST', $this->getEndpoint(), $headers, $data->asXML());
+        $xml =  simplexml_load_string($httpResponse->getBody()->getContents());
 
-        return $this->createResponse($httpResponse->xml());
+        return $this->createResponse($xml);
     }
 
     public function getEndpoint()
