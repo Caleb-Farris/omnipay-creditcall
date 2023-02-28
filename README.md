@@ -11,7 +11,7 @@ Omnipay CreditCall is installed via [Composer](http://getcomposer.org/). To inst
 ```json
 {
     "require": {
-        "omnispear/omnipay-creditcall": "~1.0"
+        "caleb-farris/omnipay-creditcall": "~1.0"
     }
 }
 ```

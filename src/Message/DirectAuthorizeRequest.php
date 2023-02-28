@@ -6,6 +6,7 @@ use Omnipay\Common\CreditCard;
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Creditcall\Constant;
 use Omnipay\Creditcall\DirectGateway;
+use Omnipay\Creditcall\Product;
 
 /**
  * Creditcall Direct Authorize Request
@@ -84,6 +85,7 @@ class DirectAuthorizeRequest extends AbstractDirectRequest
             $this->setBillingCredentials($transactionDetails);
             $this->setShippingCredentials($transactionDetails);
             $this->setCardHolderCredentials($cardDetails);
+            $this->setProductDetails($transactionDetails);
         }
 
         return $data;
@@ -125,6 +127,17 @@ class DirectAuthorizeRequest extends AbstractDirectRequest
     {
         /** @var CreditCard $card */
         $card = $this->getCard();
+
+        // Only want to set these fields if the data is present
+        if (
+            !$card->getShippingAddress1() ||
+            !$card->getShippingCity() ||
+            !$card->getShippingState() ||
+            !$card->getShippingPostcode() ||
+            !$card->getShippingCountry()
+        ) {
+            return;
+        }
 
         $invoice = $data->addChild('Delivery');
         $address = $invoice->addChild('Address');
@@ -187,6 +200,36 @@ class DirectAuthorizeRequest extends AbstractDirectRequest
         $phoneNumber1 = $phoneNumberList->addChild('PhoneNumber', $card->getPhone());
         $phoneNumber1->addAttribute('id', 1);
         $phoneNumber1->addAttribute('type', 'unknown');
+    }
+
+    protected function setProductDetails(\SimpleXMLElement &$data)
+    {
+        if (!empty($this->getProductList())) {
+            $list = $data->addChild('ProductList');
+            $products = $this->getProductList();
+
+            foreach (array_values($products) as $i => $product) {
+                $item = $list->addChild('Product');
+                $item->addAttribute('id', $i + 1);
+                $p = new Product($product);
+                $amount = $item->addChild('Amount', $this->formatCurrency($p->getAmount()));
+
+                // Default is minor
+                if ($p->getAmountUnit() === Constant::AMOUNT_UNIT_MAJOR)
+                {
+                    $amount->addAttribute('unit', Constant::AMOUNT_UNIT_MAJOR);
+                }
+
+                $item->addChild('Category',$p->getCategory());
+                $item->addChild('Code', $p->getCode());
+                $item->addChild('Description', $p->getDescription());
+                $item->addChild('CurrencyCode', $p->getCurrencyCode());
+                $item->addChild('Name', $p->getName());
+                $item->addChild('Quantity', $p->getQuantity());
+                $item->addChild('Risk', $p->getRisk());
+                $item->addChild('Type', $p->getType());
+            }
+        }
     }
 
     public function getCardReference()
@@ -320,5 +363,15 @@ class DirectAuthorizeRequest extends AbstractDirectRequest
         $iav->addAttribute('format', 'base64');
 
         $threeDSecure->addChild('TransactionStatus', $this->getThreeDSecureTransactionStatus());
+    }
+
+    public function getProductList()
+    {
+        return $this->getParameter('productList');
+    }
+
+    public function setProductList($value)
+    {
+        return $this->setParameter('productList', $value);
     }
 }

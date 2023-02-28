@@ -20,6 +20,10 @@
         {
             "name": "Cody Butz",
             "email": "cbutz@omnispear.com"
+        },
+        {
+            "name": "Caleb Farris",
+            "email": "calebconnorfarris@gmail.com"
         }
     ],
     "autoload": {

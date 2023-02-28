@@ -34,4 +34,6 @@ class Constant
     const ACQUIRER_HSBC_BANK                            = 'hsbc_bank';
     const ACQUIRER_LLOYDS_TSB                           = 'lloyds_tsb';
     const ACQUIRER_WORLDPAY                             = 'worldpay';
+
+    const AMOUNT_UNIT_MAJOR = 'major';
 }
