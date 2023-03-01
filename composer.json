@@ -1,5 +1,5 @@
 {
-    "name": "omnispear/omnipay-creditcall",
+    "name": "caleb-farris/omnipay-creditcall",
     "type": "library",
     "description": "Creditcall driver for the Omnipay payment processing library",
     "keywords": [
